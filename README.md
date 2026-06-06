@@ -1,39 +1,51 @@
-## Telegram messenger for Android
+# Mikogram — High-Performance Telegram Client for Android
 
-[Telegram](https://telegram.org) is a messaging app with a focus on speed and security. It’s superfast, simple and free.
-This repo contains the official source code for [Telegram App for Android](https://play.google.com/store/apps/details?id=org.telegram.messenger).
+**Mikogram** is a highly optimized, customized fork of the official Telegram Android client. Designed for users who demand visual excellence, fine-grained personalization, and maximum performance, Mikogram integrates cutting-edge features while keeping the security and core messaging features of official Telegram intact.
 
-## Creating your Telegram Application
+---
 
-We welcome all developers to use our API and source code to create applications on our platform.
-There are several things we require from **all developers** for the moment.
+## 🚀 Key Features
 
-1. [**Obtain your own api_id**](https://core.telegram.org/api/obtaining_api_id) for your application.
-2. Please **do not** use the name Telegram for your app — or make sure your users understand that it is unofficial.
-3. Kindly **do not** use our standard logo (white paper plane in a blue circle) as your app's logo.
-3. Please study our [**security guidelines**](https://core.telegram.org/mtproto/security_guidelines) and take good care of your users' data and privacy.
-4. Please remember to publish **your** code too in order to comply with the licences.
+### ⚡ Download Speed Boost
+* **Parallel Connections:** Accelerates media and file downloads by opening up to 32 parallel network channels, bypassing standard client throttling.
+* **Smart Buffering:** Optimized chunk requests dynamically adjust according to network conditions.
 
-### API, Protocol documentation
+### 📊 Real-Time Network Speed Monitor
+* **Dynamic Title Bar Display:** Displays real-time download and upload transfer rates directly in the main chat title bar (e.g., `↓ 2.4 MB/s  ↑ 180 KB/s`).
+* **Low Overhead:** Runs a highly efficient polling loop using native traffic stats APIs, minimizing battery drain.
 
-Telegram API manuals: https://core.telegram.org/api
+### 🌌 Dark AMOLED Mode
+* **True Black themeing:** Forces true black background colors (`#000000`) across all core screens (chat background, menu drawer, popups, and title bars) when a dark theme is selected.
+* **Easy Toggle:** Conveniently located directly under the Theme selector in **Chat Settings** for quick access.
 
-MTproto protocol manuals: https://core.telegram.org/mtproto
+---
 
-### Compilation Guide
+## 🛠️ Build and Compilation
 
-**Note**: In order to support [reproducible builds](https://core.telegram.org/reproducible-builds), this repo contains dummy release.keystore,  google-services.json and filled variables inside BuildVars.java. Before publishing your own APKs please make sure to replace all these files with your own.
+### Prerequisites
+To build Mikogram, you will need:
+* **JDK 17** (strictly required due to Kotlin compiler compatibility)
+* Android NDK **28.2.13676358** (recommended)
 
-You will require Android Studio 3.4, Android NDK rev. 20 and Android SDK 8.1
+### Local Configuration
+1. Initialize your local SDK paths by creating a `local.properties` file in the root directory:
+   ```properties
+   sdk.dir=/opt/android-sdk
+   ```
+2. Set up your Firebase settings by downloading `google-services.json` from your Firebase console and placing it in the same directory as the project.
 
-1. Download the Telegram source code from https://github.com/DrKLO/Telegram ( git clone https://github.com/DrKLO/Telegram.git )
-2. Copy your release.keystore into TMessagesProj/config
-3. Fill out RELEASE_KEY_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_STORE_PASSWORD in gradle.properties to access your  release.keystore
-4.  Go to https://console.firebase.google.com/, create two android apps with application IDs org.telegram.messenger and org.telegram.messenger.beta, turn on firebase messaging and download google-services.json, which should be copied to the same folder as TMessagesProj.
-5. Open the project in the Studio (note that it should be opened, NOT imported).
-6. Fill out values in TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java – there’s a link for each of the variables showing where and which data to obtain.
-7. You are ready to compile Telegram.
+### Building
+To compile a standalone debug variant of the app, run:
+```bash
+JAVA_HOME=/usr/lib/jvm/java-17-openjdk ./gradlew :TMessagesProj_AppStandalone:assembleAfatDebug
+```
 
-### Localization
+For release builds:
+```bash
+JAVA_HOME=/usr/lib/jvm/java-17-openjdk ./gradlew :TMessagesProj_AppStandalone:assembleAfatRelease
+```
 
-We moved all translations to https://translations.telegram.org/en/android/. Please use it.
+---
+
+## 🔒 Security & Privacy
+Mikogram operates entirely client-side. Your login credentials, chat databases, and media files are stored locally and encrypted using the official Telegram protocols (MTProto). All custom preferences (e.g. Speed Boost, AMOLED mode) are stored locally in Android's private storage.
