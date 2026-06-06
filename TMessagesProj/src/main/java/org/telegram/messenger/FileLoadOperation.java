@@ -295,6 +295,10 @@ public class FileLoadOperation {
             maxDownloadRequests = 4;
             maxDownloadRequestsBig = 4;
         }
+        if (org.telegram.messenger.MikugramConfig.isDownloadSpeedBoost()) {
+            maxDownloadRequests = 32;
+            maxDownloadRequestsBig = 32;
+        }
         maxCdnParts = (int) (FileLoader.DEFAULT_MAX_FILE_SIZE / downloadChunkSizeBig);
     }
 
@@ -845,6 +849,9 @@ public class FileLoadOperation {
                 currentDownloadChunkSize = bigChunk ? downloadChunkSizeBig : downloadChunkSize;
                 currentMaxDownloadRequests = bigChunk ? maxDownloadRequestsBig : maxDownloadRequests;
             }
+        }
+        if (org.telegram.messenger.MikugramConfig.isDownloadSpeedBoost()) {
+            currentMaxDownloadRequests = 32;
         }
         final boolean alreadyStarted = state != stateIdle;
         final boolean wasPaused = paused;

@@ -916,7 +916,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     }
                     break;
             }
-            return "Mikugram " + String.format(Locale.US, "v%s (%d)\n%s", pInfo.versionName, code, abi);
+            return "Mikogram " + String.format(Locale.US, "v%s (%d)\n%s", pInfo.versionName, code, abi);
         } catch (Exception e) {
             FileLog.e(e);
         }

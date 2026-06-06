@@ -13,6 +13,7 @@ public class MikugramConfig {
     // Network
     private static final String KEY_SHOW_NETWORK_SPEED = "show_network_speed";
     private static final String KEY_NETWORK_SPEED_TYPE = "network_speed_type"; // 0=both, 1=download, 2=upload
+    private static final String KEY_DOWNLOAD_SPEED_BOOST = "download_speed_boost";
 
     public static final int SPEED_TYPE_BOTH = 0;
     public static final int SPEED_TYPE_DOWNLOAD = 1;
@@ -22,6 +23,7 @@ public class MikugramConfig {
     private static boolean darkAmoled;
     private static boolean showNetworkSpeed;
     private static int networkSpeedType;
+    private static boolean downloadSpeedBoost;
     private static boolean loaded;
 
     private static SharedPreferences getPrefs() {
@@ -34,6 +36,7 @@ public class MikugramConfig {
         darkAmoled = prefs.getBoolean(KEY_DARK_AMOLED, false);
         showNetworkSpeed = prefs.getBoolean(KEY_SHOW_NETWORK_SPEED, false);
         networkSpeedType = prefs.getInt(KEY_NETWORK_SPEED_TYPE, SPEED_TYPE_BOTH);
+        downloadSpeedBoost = prefs.getBoolean(KEY_DOWNLOAD_SPEED_BOOST, false);
         loaded = true;
     }
 
@@ -77,5 +80,21 @@ public class MikugramConfig {
     public static void setNetworkSpeedType(int type) {
         networkSpeedType = type;
         getPrefs().edit().putInt(KEY_NETWORK_SPEED_TYPE, type).apply();
+    }
+
+    // Download speed boost
+    public static boolean isDownloadSpeedBoost() {
+        loadConfig();
+        return downloadSpeedBoost;
+    }
+
+    public static void toggleDownloadSpeedBoost() {
+        downloadSpeedBoost = !downloadSpeedBoost;
+        getPrefs().edit().putBoolean(KEY_DOWNLOAD_SPEED_BOOST, downloadSpeedBoost).apply();
+    }
+
+    public static void setDownloadSpeedBoost(boolean value) {
+        downloadSpeedBoost = value;
+        getPrefs().edit().putBoolean(KEY_DOWNLOAD_SPEED_BOOST, value).apply();
     }
 }

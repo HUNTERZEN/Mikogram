@@ -38,13 +38,11 @@ public class MikugramPreferencesActivity extends BaseFragment {
     // Row indices
     private int rowCount;
 
-    private int appearanceHeaderRow;
-    private int darkAmoledRow;
-    private int darkAmoledInfoRow;
-
     private int networkHeaderRow;
     private int showNetworkSpeedRow;
     private int networkSpeedInfoRow;
+    private int downloadSpeedBoostRow;
+    private int downloadSpeedBoostInfoRow;
 
     private int aboutHeaderRow;
     private int versionRow;
@@ -59,13 +57,11 @@ public class MikugramPreferencesActivity extends BaseFragment {
     private void updateRows() {
         rowCount = 0;
 
-        appearanceHeaderRow = rowCount++;
-        darkAmoledRow = rowCount++;
-        darkAmoledInfoRow = rowCount++;
-
         networkHeaderRow = rowCount++;
         showNetworkSpeedRow = rowCount++;
         networkSpeedInfoRow = rowCount++;
+        downloadSpeedBoostRow = rowCount++;
+        downloadSpeedBoostInfoRow = rowCount++;
 
         aboutHeaderRow = rowCount++;
         versionRow = rowCount++;
@@ -99,15 +95,7 @@ public class MikugramPreferencesActivity extends BaseFragment {
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         listView.setOnItemClickListener((view, position) -> {
-            if (position == darkAmoledRow) {
-                MikugramConfig.toggleDarkAmoled();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(MikugramConfig.isDarkAmoled());
-                }
-                // Force theme refresh
-                Theme.reloadAllResources(getParentActivity());
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, Theme.getActiveTheme(), false, null, -1);
-            } else if (position == showNetworkSpeedRow) {
+            if (position == showNetworkSpeedRow) {
                 MikugramConfig.toggleShowNetworkSpeed();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(MikugramConfig.isShowNetworkSpeed());
@@ -117,6 +105,11 @@ public class MikugramPreferencesActivity extends BaseFragment {
                     org.telegram.messenger.NetworkSpeedMonitor.getInstance().start();
                 } else {
                     org.telegram.messenger.NetworkSpeedMonitor.getInstance().stop();
+                }
+            } else if (position == downloadSpeedBoostRow) {
+                MikugramConfig.toggleDownloadSpeedBoost();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(MikugramConfig.isDownloadSpeedBoost());
                 }
             }
         });
@@ -182,9 +175,7 @@ public class MikugramPreferencesActivity extends BaseFragment {
             switch (holder.getItemViewType()) {
                 case VIEW_TYPE_HEADER: {
                     HeaderCell cell = (HeaderCell) holder.itemView;
-                    if (position == appearanceHeaderRow) {
-                        cell.setText(getString(R.string.MikugramAppearance));
-                    } else if (position == networkHeaderRow) {
+                    if (position == networkHeaderRow) {
                         cell.setText(getString(R.string.MikugramNetwork));
                     } else if (position == aboutHeaderRow) {
                         cell.setText(getString(R.string.MikugramAbout));
@@ -193,19 +184,19 @@ public class MikugramPreferencesActivity extends BaseFragment {
                 }
                 case VIEW_TYPE_CHECK: {
                     TextCheckCell cell = (TextCheckCell) holder.itemView;
-                    if (position == darkAmoledRow) {
-                        cell.setTextAndCheck(getString(R.string.MikugramDarkAmoled), MikugramConfig.isDarkAmoled(), true);
-                    } else if (position == showNetworkSpeedRow) {
-                        cell.setTextAndCheck(getString(R.string.MikugramShowNetworkSpeed), MikugramConfig.isShowNetworkSpeed(), false);
+                    if (position == showNetworkSpeedRow) {
+                        cell.setTextAndCheck(getString(R.string.MikugramShowNetworkSpeed), MikugramConfig.isShowNetworkSpeed(), true);
+                    } else if (position == downloadSpeedBoostRow) {
+                        cell.setTextAndCheck(getString(R.string.MikugramDownloadSpeedBoost), MikugramConfig.isDownloadSpeedBoost(), false);
                     }
                     break;
                 }
                 case VIEW_TYPE_INFO: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    if (position == darkAmoledInfoRow) {
-                        cell.setText(getString(R.string.MikugramDarkAmoledInfo));
-                    } else if (position == networkSpeedInfoRow) {
+                    if (position == networkSpeedInfoRow) {
                         cell.setText(getString(R.string.MikugramShowNetworkSpeedInfo));
+                    } else if (position == downloadSpeedBoostInfoRow) {
+                        cell.setText(getString(R.string.MikugramDownloadSpeedBoostInfo));
                     }
                     break;
                 }
@@ -227,11 +218,11 @@ public class MikugramPreferencesActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == appearanceHeaderRow || position == networkHeaderRow || position == aboutHeaderRow) {
+            if (position == networkHeaderRow || position == aboutHeaderRow) {
                 return VIEW_TYPE_HEADER;
-            } else if (position == darkAmoledRow || position == showNetworkSpeedRow) {
+            } else if (position == showNetworkSpeedRow || position == downloadSpeedBoostRow) {
                 return VIEW_TYPE_CHECK;
-            } else if (position == darkAmoledInfoRow || position == networkSpeedInfoRow) {
+            } else if (position == networkSpeedInfoRow || position == downloadSpeedBoostInfoRow) {
                 return VIEW_TYPE_INFO;
             } else if (position == aboutShadowRow) {
                 return VIEW_TYPE_SHADOW;
