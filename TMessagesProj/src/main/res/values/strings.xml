@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="AppName">Telegram</string>
-    <string name="AppNameBeta">Telegram Beta</string>
+    <string name="AppName">Mikugram</string>
+    <string name="AppNameBeta">Mikugram Beta</string>
     <string name="LanguageName">English</string>
     <string name="English">English</string>
     <string name="LanguageNameInEnglish">English</string>
@@ -10816,4 +10816,16 @@
     <string name="AIEditorStyleSharedToManyChats_other">Sent AI Style link to **%1$d chats**.</string>
 
     <string name="GuestBotFor"> for </string>
+
+    <!--Mikugram-->
+    <string name="MikugramPreferences">Mikugram Preferences</string>
+    <string name="MikugramPreferencesInfo">Customize your Mikugram experience</string>
+    <string name="MikugramAppearance">Appearance</string>
+    <string name="MikugramDarkAmoled">Dark AMOLED</string>
+    <string name="MikugramDarkAmoledInfo">Use pure black backgrounds for OLED screens. Works with Night and Dark Blue themes.</string>
+    <string name="MikugramNetwork">Network</string>
+    <string name="MikugramShowNetworkSpeed">Show Network Speed</string>
+    <string name="MikugramShowNetworkSpeedInfo">Display download/upload speed in the title bar</string>
+    <string name="MikugramAbout">About</string>
+    <string name="MikugramVersion">Mikugram Version</string>
 </resources>

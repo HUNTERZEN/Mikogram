@@ -124,6 +124,8 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.MikugramConfig;
+import org.telegram.messenger.NetworkSpeedMonitor;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
@@ -2840,6 +2842,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (!onlySelect) {
                 globalObserversGroup.add(NotificationCenter.closeSearchByActiveAction);
                 globalObserversGroup.add(NotificationCenter.proxySettingsChanged);
+                globalObserversGroup.add(NotificationCenter.mikugramNetworkSpeedUpdated);
                 observersGroup.add(NotificationCenter.filterSettingsUpdated);
                 observersGroup.add(NotificationCenter.dialogsUnreadCounterChanged);
             }
@@ -2917,6 +2920,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         BirthdayController.getInstance(currentAccount).check();
         additionNavigationBarHeight = hasMainTabs ? dp(MAIN_TABS_HEIGHT_WITH_MARGINS) : 0;
         additionFloatingButtonOffset = hasMainTabs ? dp(DialogsActivity.MAIN_TABS_HEIGHT + DialogsActivity.MAIN_TABS_MARGIN) : 0;
+
+        // Mikugram: start network speed monitor if enabled
+        if (MikugramConfig.isShowNetworkSpeed()) {
+            NetworkSpeedMonitor.getInstance().start();
+        }
 
         return true;
     }
@@ -10592,6 +10600,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             updateDialogsHint();
         } else if (id == NotificationCenter.activeAuctionsUpdated) {
             updateDialogsHint();
+        } else if (id == NotificationCenter.mikugramNetworkSpeedUpdated) {
+            if (actionBar != null && MikugramConfig.isShowNetworkSpeed()) {
+                NetworkSpeedMonitor monitor = NetworkSpeedMonitor.getInstance();
+                if (monitor.hasSpeed()) {
+                    actionBar.setSubtitle(monitor.getFormattedSpeed());
+                } else {
+                    actionBar.setSubtitle(null);
+                }
+            }
         }
     }
 

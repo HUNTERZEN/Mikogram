@@ -89,6 +89,7 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MikugramConfig;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -9593,6 +9594,28 @@ public class Theme {
         }
         if (key_windowBackgroundWhite == key || key_windowBackgroundGray == key || key_actionBarDefault == key || key_actionBarDefaultArchived == key) {
             color |= 0xff000000;
+        }
+        // Mikugram: Dark AMOLED override
+        if (MikugramConfig.isDarkAmoled() && currentTheme != null && currentTheme.isDark()) {
+            if (key == key_windowBackgroundWhite ||
+                key == key_windowBackgroundGray ||
+                key == key_actionBarDefault ||
+                key == key_actionBarDefaultArchived ||
+                key == key_dialogBackground ||
+                key == key_windowBackgroundUnchecked ||
+                key == key_windowBackgroundChecked ||
+                key == key_chats_menuBackground) {
+                return 0xFF000000;
+            }
+            if (key == key_chat_wallpaper) {
+                return 0xFF000000;
+            }
+            if (key == key_graySection) {
+                return 0xFF0A0A0A;
+            }
+            if (key == key_actionBarDefaultSubmenuBackground) {
+                return 0xFF0A0A0A;
+            }
         }
         return color;
     }
