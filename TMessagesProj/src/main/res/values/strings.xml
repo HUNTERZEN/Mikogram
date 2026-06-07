@@ -10896,4 +10896,6 @@
     <!-- ── About ── -->
     <string name="MikugramAbout">About</string>
     <string name="MikugramVersion">Mikogram Version</string>
+    <string name="MikugramSourceCode">View source code</string>
+    <string name="MikugramSourceCodeValue">GitHub</string>
 </resources>

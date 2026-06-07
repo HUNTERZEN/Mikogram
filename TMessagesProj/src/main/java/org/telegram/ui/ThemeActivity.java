@@ -664,7 +664,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             themeHeaderRow = rowCount++;
 
             themeListRow2 = rowCount++;
-            darkAmoledRow = rowCount++;
+            darkAmoledRow = -1;
             themeInfoRow = rowCount++;
 
             bubbleRadiusHeaderRow = rowCount++;

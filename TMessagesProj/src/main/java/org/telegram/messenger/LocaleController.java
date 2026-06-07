@@ -1426,6 +1426,36 @@ public class LocaleController {
         return localeInfo == null || TextUtils.isEmpty(localeInfo.name) ? getString("LanguageName", R.string.LanguageName) : localeInfo.name;
     }
 
+    public static String replaceTelegramAppName(String value) {
+        if (value == null) {
+            return null;
+        }
+        value = value.replace("Telegram", "Mikogram");
+        value = value.replace("telegram", "mikogram");
+        value = value.replace("TELEGRAM", "MIKOGRAM");
+        
+        // Restore links/handles
+        value = value.replace("mikogram.org", "telegram.org");
+        value = value.replace("Mikogram.org", "Telegram.org");
+        value = value.replace("MIKOGRAM.ORG", "TELEGRAM.ORG");
+        value = value.replace("mikogram.dog", "telegram.dog");
+        value = value.replace("Mikogram.dog", "Telegram.dog");
+        value = value.replace("t.me/mikogram", "t.me/telegram");
+        value = value.replace("t.me/Mikogram", "t.me/Telegram");
+        value = value.replace("T.me/mikogram", "T.me/telegram");
+        value = value.replace("T.me/Mikogram", "T.me/Telegram");
+        value = value.replace("@mikogram", "@telegram");
+        value = value.replace("@Mikogram", "@Telegram");
+        value = value.replace("mikogram_bot", "telegram_bot");
+        value = value.replace("Mikogram_bot", "Telegram_bot");
+        value = value.replace("mikogram.me", "telegram.me");
+        value = value.replace("Mikogram.me", "Telegram.me");
+        value = value.replace("mikogram.space", "telegram.space");
+        value = value.replace("Mikogram.space", "Telegram.space");
+        
+        return value;
+    }
+
     private String getStringInternal(String key, int res) {
         return getStringInternal(key, null, 0, res);
     }
@@ -1452,7 +1482,7 @@ public class LocaleController {
         if (value == null) {
             value = "LOC_ERR:" + key;
         }
-        return value;
+        return replaceTelegramAppName(value);
     }
 
     public static String getServerString(String key) {
@@ -1463,7 +1493,7 @@ public class LocaleController {
                 value = ApplicationLoader.applicationContext.getString(resourceId);
             }
         }
-        return value;
+        return replaceTelegramAppName(value);
     }
 
     public static String getString(@StringRes int res) {

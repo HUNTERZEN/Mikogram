@@ -9604,8 +9604,32 @@ public class Theme {
                 key == key_dialogBackground ||
                 key == key_windowBackgroundUnchecked ||
                 key == key_windowBackgroundChecked ||
-                key == key_chats_menuBackground) {
+                key == key_chats_menuBackground ||
+                key == key_chats_menuTopBackground) {
                 return 0xFF000000;
+            }
+            if (key == key_actionBarDefaultTitle ||
+                key == key_actionBarDefaultIcon ||
+                key == key_actionBarDefaultSearch ||
+                key == key_actionBarDefaultArchivedTitle ||
+                key == key_actionBarDefaultArchivedIcon ||
+                key == key_actionBarDefaultArchivedSearch ||
+                key == key_chats_menuItemText ||
+                key == key_chats_menuItemIcon ||
+                key == key_chats_menuName) {
+                return 0xFFFFFFFF;
+            }
+            if (key == key_actionBarDefaultSubtitle ||
+                key == key_chats_menuPhone) {
+                return 0xFFB0B0B0;
+            }
+            if (key == key_actionBarDefaultSearchPlaceholder ||
+                key == key_actionBarDefaultArchivedSearchPlaceholder) {
+                return 0x80FFFFFF;
+            }
+            if (key == key_actionBarDefaultSelector ||
+                key == key_actionBarDefaultArchivedSelector) {
+                return 0x26FFFFFF;
             }
             if (key == key_chat_wallpaper) {
                 return 0xFF000000;

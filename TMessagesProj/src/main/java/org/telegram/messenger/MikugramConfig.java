@@ -328,8 +328,7 @@ public class MikugramConfig {
     // ═══════════════════════════════════════════
 
     public static boolean isDarkAmoled() {
-        loadConfig();
-        return darkAmoled;
+        return true;
     }
 
     public static void toggleDarkAmoled() {
