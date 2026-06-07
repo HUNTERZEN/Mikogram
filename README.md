@@ -14,9 +14,6 @@
 * **Dynamic Title Bar Display:** Displays real-time download and upload transfer rates directly in the main chat title bar (e.g., `↓ 2.4 MB/s  ↑ 180 KB/s`).
 * **Low Overhead:** Runs a highly efficient polling loop using native traffic stats APIs, minimizing battery drain.
 
-### 🌌 Dark AMOLED Mode
-* **True Black themeing:** Forces true black background colors (`#000000`) across all core screens (chat background, menu drawer, popups, and title bars) when a dark theme is selected.
-* **Easy Toggle:** Conveniently located directly under the Theme selector in **Chat Settings** for quick access.
 
 ---
 
