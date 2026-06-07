@@ -34,9 +34,9 @@
     <!--code enter view-->
     <string name="YourCode">Phone verification</string>
     <string name="SentSmsCode">We’ve sent an SMS with an activation code to your phone **%1$s**.</string>
-    <string name="SentAppCode">We\'ve sent the code to the **Telegram** app on your other device.</string>
-    <string name="SentAppCodeWithPhone">We\'ve sent the code to the **Telegram** app for %1$s on your other device.</string>
-    <string name="SentAppCodeTitle">Check your Telegram messages</string>
+    <string name="SentAppCode">We\'ve sent the code to the **Mikogram** app on your other device.</string>
+    <string name="SentAppCodeWithPhone">We\'ve sent the code to the **Mikogram** app for %1$s on your other device.</string>
+    <string name="SentAppCodeTitle">Check your Mikogram messages</string>
     <string name="SentFragmentCode">Get the code for %1$s in the Anonymous Numbers section on Fragment.</string>
     <string name="SentSmsCodeTitle">Enter code</string>
     <string name="OpenFragment">Open Fragment</string>
@@ -171,7 +171,7 @@
     <string name="NoResultFoundFor">No results found for \"%s\".</string>
     <string name="NoResultFoundForTag">No results found for %s</string>
     <string name="NoResultFoundFor2">There were no results for \"%s\".\nTry a new search.</string>
-    <string name="NoChats">Welcome to Telegram</string>
+    <string name="NoChats">Welcome to Mikogram</string>
     <string name="RecentlyViewed">Recently viewed</string>
     <string name="RecentlyViewedHide">HIDE</string>
     <string name="NoChatsHelp">Start messaging by tapping the pencil button in the bottom right corner.</string>
@@ -329,17 +329,17 @@
     <string name="Underline">Underline</string>
     <string name="Regular">Regular</string>
     <string name="FormattedDate">Date</string>
-    <string name="ContactsPermissionAlert">**Telegram** needs access to your contacts so that you can connect with your friends across all your devices. Your contacts will be continuously synced with Telegram\'s heavily encrypted cloud servers.</string>
+    <string name="ContactsPermissionAlert">**Mikogram** needs access to your contacts so that you can connect with your friends across all your devices. Your contacts will be continuously synced with heavily encrypted cloud servers.</string>
     <string name="ContactsPermissionAlertNotNow">Not now</string>
     <string name="ContactsPermissionAlertContinue">Continue</string>
     <string name="NotificationsPermissionAlertTitle">Turn on notifications</string>
-    <string name="NotificationsPermissionAlertSubtitle">Please allow Telegram to send you notifications to stay in touch with your friends and family.</string>
+    <string name="NotificationsPermissionAlertSubtitle">Please allow Mikogram to send you notifications to stay in touch with your friends and family.</string>
     <string name="NotificationsPermissionAlert1">Get notified about new messages</string>
     <string name="NotificationsPermissionAlert2">Learn when you are mentioned in groups</string>
     <string name="NotificationsPermissionAlert3">Mute specific chats and types of chats</string>
     <string name="NotificationsPermissionContinue">Continue</string>
     <string name="NotificationsPermissionSettings">Open Settings</string>
-    <string name="YourContacts">Your contacts on Telegram</string>
+    <string name="YourContacts">Your contacts on Mikogram</string>
     <string name="ConnectingYourContacts">Connecting your contacts...</string>
     <string name="ArchiveHintHeader1">This is your Archive</string>
     <string name="ArchiveHintText1">Chats with enabled notifications get unarchived when new messages arrive.</string>
@@ -1256,7 +1256,7 @@
     <string name="SendingVideoStatus">sending a video...</string>
     <string name="RecordingVideoStatus">recording a video...</string>
     <string name="SendingFile">sending a file...</string>
-    <string name="GotAQuestion">Got a question\nabout Telegram?</string>
+    <string name="GotAQuestion">Got a question\nabout Mikogram?</string>
     <string name="ChatGallery">Gallery</string>
     <string name="ChatLocation">Location</string>
     <string name="ChatSticker">Sticker</string>
@@ -1786,15 +1786,15 @@
     <string name="NotificationGroupKickMember">%1$s removed %3$s from the group %2$s</string>
     <string name="NotificationGroupKickYou">%1$s removed you from the group %2$s</string>
     <string name="NotificationGroupLeftMember">%1$s left the group %2$s</string>
-    <string name="NotificationContactJoined">%1$s joined Telegram!</string>
+    <string name="NotificationContactJoined">%1$s joined Mikogram!</string>
     <string name="NotificationUnrecognizedDevice">%1$s,\nWe detected a login into your account from a new device on %2$s\n\nDevice: %3$s\nLocation: %4$s\n\nIf this wasn\'t you, you can go to Settings - Privacy and Security - Sessions and terminate that session.\n\nIf you think that somebody logged in to your account against your will, you can enable two-step verification in Privacy and Security settings.\n\nSincerely,\nThe Telegram Team</string>
     <string name="NotificationContactNewPhoto">%1$s updated profile photo</string>
     <string name="NotificationInvitedToGroupByLink">%1$s joined to the group %2$s via invite link</string>
     <string name="NotificationGroupFew">%1$s sent %3$s to the group %2$s</string>
     <string name="NotificationGroupAlbum">%1$s sent an album to the group %2$s</string>
     <string name="NotificationGroupForwardedFew">%1$s forwarded %3$s to the group %2$s</string>
-    <string name="NotificationHiddenName">Telegram</string>
-    <string name="NotificationHiddenChatName">Telegram</string>
+    <string name="NotificationHiddenName">Mikogram</string>
+    <string name="NotificationHiddenChatName">Mikogram</string>
     <string name="NotificationHiddenChatUserName">User</string>
     <string name="NotificationHiddenMessage">New message</string>
     <string name="Reply">Reply</string>
@@ -1864,13 +1864,13 @@
     <string name="NotificationActionMissedCallConference">You missed a call from %1$s</string>
     <string name="NotificationActionMissedCallConferenceOther_one">You missed a call from %2$s and %1$d other</string>
     <string name="NotificationActionMissedCallConferenceOther_other">You missed a call from %2$s and %1$d others</string>
-    <string name="SecretChatName">Telegram</string>
+    <string name="SecretChatName">Mikogram</string>
     <!--contacts view-->
     <string name="SelectContact">Select Contact</string>
     <string name="ShareContactTitle">Share Contact</string>
     <string name="AddContactPhonebookTitle">Add Contact</string>
     <string name="NoContacts">No contacts yet</string>
-    <string name="InviteText2">Hey, I\'m using Telegram to chat. Join me! Download it here: %1$s</string>
+    <string name="InviteText2">Hey, I\'m using Mikogram to chat. Join me! Download it here: %1$s</string>
     <string name="TodayAt">at</string>
     <string name="YesterdayAt">yesterday at</string>
     <string name="TodayAtFormatted">at %1$s</string>
@@ -1891,8 +1891,8 @@
     <string name="WithinAMonth">last seen within a month</string>
     <string name="ALongTimeAgo">last seen a long time ago</string>
     <string name="NewMessageTitle">New Message</string>
-    <string name="InviteFriendsHelp">Select contacts to invite them to Telegram</string>
-    <string name="InviteToTelegram">INVITE TO TELEGRAM</string>
+    <string name="InviteFriendsHelp">Select contacts to invite them to Mikogram</string>
+    <string name="InviteToTelegram">INVITE TO MIKOGRAM</string>
     <string name="ShareTelegram2">Share Telegram</string>
     <string name="UpdateContactsTitle">Update contacts?</string>
     <string name="UpdateContactsMessage">Telegram has detected many unsynced contacts, would you like to sync them now? Choose \'OK\' if you\'re using your own device, SIM card and Google account.</string>
@@ -2462,9 +2462,9 @@
     <string name="LanguageUnknownCustomAlert">Unfortunately, this custom language pack (**%1$s**) doesn\'t contain data for Telegram Android.</string>
     <string name="AskAQuestionInfo">Please note that Telegram Support is done by volunteers. We try to respond as quickly as possible, but it may take a while.\n\nPlease take a look at the <![CDATA[<a href=\"https://telegram.org/faq#general-questions\">Telegram FAQ</a>]]>: it has answers to most questions and important tips for <![CDATA[<a href=\"https://telegram.org/faq#troubleshooting\">troubleshooting</a>]]>.</string>
     <string name="AskButton">Ask a volunteer</string>
-    <string name="TelegramFAQ">Telegram FAQ</string>
-    <string name="TelegramFaq">Telegram FAQ</string>
-    <string name="TelegramFeatures">Telegram Features</string>
+    <string name="TelegramFAQ">Mikogram FAQ</string>
+    <string name="TelegramFaq">Mikogram FAQ</string>
+    <string name="TelegramFeatures">Mikogram Features</string>
     <string name="TelegramFeaturesUrl">https://t.me/TelegramTips</string>
     <string name="AddAccount">Add Account</string>
     <string name="SwitchAccountHint">"Long tap to switch accounts"</string>
@@ -4159,18 +4159,18 @@
     <string name="ViewMessageStatistic">Message Statistic</string>
     <string name="ViewMessage">Open Message</string>
     <!--Intro view-->
-    <string name="Page1Title">Telegram</string>
+    <string name="Page1Title">Mikogram</string>
     <string name="Page2Title">Fast</string>
     <string name="Page3Title">Free</string>
     <string name="Page4Title">Secure</string>
     <string name="Page5Title">Powerful</string>
     <string name="Page6Title">Cloud-Based</string>
     <string name="Page1Message">The world\'s **fastest** messaging app.\nIt is **free** and **secure**.</string>
-    <string name="Page2Message">**Telegram** delivers messages faster than\nany other application.</string>
-    <string name="Page3Message">**Telegram** provides free unlimited cloud storage for chats and media.</string>
-    <string name="Page4Message">**Telegram** keeps your messages safe\nfrom hacker attacks.</string>
-    <string name="Page5Message">**Telegram** has no limits on\nthe size of your media and chats.</string>
-    <string name="Page6Message">**Telegram** lets you access your messages\nfrom multiple devices.</string>
+    <string name="Page2Message">**Mikogram** delivers messages faster than\nany other application.</string>
+    <string name="Page3Message">**Mikogram** provides free unlimited cloud storage for chats and media.</string>
+    <string name="Page4Message">**Mikogram** keeps your messages safe\nfrom hacker attacks.</string>
+    <string name="Page5Message">**Mikogram** has no limits on\nthe size of your media and chats.</string>
+    <string name="Page6Message">**Mikogram** lets you access your messages\nfrom multiple devices.</string>
     <string name="StartMessaging">Start Messaging</string>
     <!-- VoIP -->
     <string name="AccountSettings">Account Settings</string>
@@ -10817,17 +10817,83 @@
 
     <string name="GuestBotFor"> for </string>
 
-    <!--Mikugram-->
+    <!--Mikogram Settings-->
+
+    <!-- Main -->
     <string name="MikugramPreferences">Mikogram Preferences</string>
     <string name="MikugramPreferencesInfo">Customize your Mikogram experience</string>
+
+    <!-- ── General ── -->
+    <string name="MikugramGeneral">General</string>
+    <string name="MikugramUseSystemEmoji">Use System Emojis</string>
+    <string name="MikugramUseSystemEmojiInfo">Use your device\'s system emojis instead of Telegram\'s built-in set</string>
+    <string name="MikugramDisableNumberRounding">Disable Number Rounding</string>
+    <string name="MikugramDisableNumberRoundingInfo">Show exact member counts instead of rounded numbers like 1K or 2M</string>
+    <string name="MikugramAskBeforeCall">Ask Before Call</string>
+    <string name="MikugramAskBeforeCallInfo">Show a confirmation dialog before placing voice or video calls</string>
+    <string name="MikugramOpenArchiveOnPull">Open Archive on Pull</string>
+    <string name="MikugramOpenArchiveOnPullInfo">Open the archived chats folder when pulling down on the chat list</string>
+    <string name="MikugramPreferIPv6">Prefer IPv6</string>
+    <string name="MikugramPreferIPv6Info">Prefer IPv6 connections when available. Restart the app for changes to take effect.</string>
+
+    <!-- ── Chats ── -->
+    <string name="MikugramChats">Chats</string>
+    <string name="MikugramIgnoreBlocked">Ignore Blocked Users</string>
+    <string name="MikugramIgnoreBlockedInfo">Show messages from blocked users in groups and channels</string>
+    <string name="MikugramHideKeyboardOnScroll">Hide Keyboard on Scroll</string>
+    <string name="MikugramDisableGreetingSticker">Disable Greeting Sticker</string>
+    <string name="MikugramDisableJumpToNext">Disable Jump to Next Channel</string>
+    <string name="MikugramDisableJumpToNextInfo">Disable automatic jump to next unread channel when reaching the end</string>
+    <string name="MikugramDisableVoiceAutoplay">Disable Voice Message Auto-Play</string>
+    <string name="MikugramConfirmAVMessage">Confirm Audio/Video Messages</string>
+    <string name="MikugramConfirmAVMessageInfo">Show confirmation before sending voice and video messages</string>
+    <string name="MikugramAutoPauseVideo">Auto-Pause Video</string>
+    <string name="MikugramAutoPauseVideoInfo">Automatically pause video playback when the app moves to background</string>
+    <string name="MikugramDisableProximity">Disable Proximity Sensor</string>
+    <string name="MikugramDisableProximityInfo">Prevent the screen from turning off when the phone is held near your ear during voice messages</string>
+    <string name="MikugramDisableInstantCamera">Disable Instant Camera</string>
+    <string name="MikugramDisableInstantCameraInfo">Disable round video messages and use the regular camera instead</string>
+    <string name="MikugramUnmuteWithVolume">Unmute with Volume Buttons</string>
+    <string name="MikugramUnmuteWithVolumeInfo">Use volume buttons to unmute inline videos</string>
+    <string name="MikugramHideTimeOnSticker">Hide Time on Sticker</string>
+    <string name="MikugramDoubleTapAction">Double-Tap Action</string>
+    <string name="MikugramDoubleTapNone">None</string>
+    <string name="MikugramDoubleTapReaction">Reaction</string>
+    <string name="MikugramDoubleTapReply">Reply</string>
+    <string name="MikugramDoubleTapSave">Save to Saved Messages</string>
+    <string name="MikugramDoubleTapEdit">Edit</string>
+    <string name="MikugramChatsInfo">Configure chat behavior, media handling, and message interactions</string>
+
+    <!-- ── Appearance ── -->
     <string name="MikugramAppearance">Appearance</string>
     <string name="MikugramDarkAmoled">Dark AMOLED</string>
     <string name="MikugramDarkAmoledInfo">Use pure black backgrounds for OLED screens. Works with Night and Dark Blue themes.</string>
-    <string name="MikugramNetwork">Network</string>
+    <string name="MikugramTransparentStatusBar">Transparent Status Bar</string>
+    <string name="MikugramTransparentStatusBarInfo">Make the status bar transparent for a more immersive experience</string>
+    <string name="MikugramTabletMode">Tablet Mode</string>
+    <string name="MikugramTabletAuto">Auto</string>
+    <string name="MikugramTabletEnable">Enable</string>
+    <string name="MikugramTabletDisable">Disable</string>
+    <string name="MikugramDisableAppBarShadow">Disable App Bar Shadow</string>
+    <string name="MikugramMediaPreview">Media Preview</string>
+    <string name="MikugramMediaPreviewInfo">Show media previews in the chat list</string>
+    <string name="MikugramFormatTimeWithSeconds">Format Time with Seconds</string>
+    <string name="MikugramFormatTimeWithSecondsInfo">Show seconds in message timestamps</string>
+    <string name="MikugramAppearanceInfo">Customize the look and feel of the app interface</string>
+
+    <!-- ── Network & Experimental ── -->
+    <string name="MikugramExperimental">Network \u0026 Experimental</string>
     <string name="MikugramShowNetworkSpeed">Show Network Speed</string>
     <string name="MikugramShowNetworkSpeedInfo">Display download/upload speed in the title bar</string>
     <string name="MikugramDownloadSpeedBoost">Download Speed Boost</string>
-    <string name="MikugramDownloadSpeedBoostInfo">Increase concurrent connection limits to accelerate file and media downloads.</string>
+    <string name="MikugramDownloadSpeedBoostInfo">Increase concurrent connection limits to accelerate file and media downloads</string>
+    <string name="MikugramShowRPCError">Show RPC Errors</string>
+    <string name="MikugramShowRPCErrorInfo">Show detailed RPC error messages for debugging</string>
+    <string name="MikugramMapDriftingFix">Map Drifting Fix</string>
+    <string name="MikugramMapDriftingFixInfo">Fix map coordinate drifting in some regions (e.g. China)</string>
+    <string name="MikugramExperimentalInfo">Advanced network and debugging options</string>
+
+    <!-- ── About ── -->
     <string name="MikugramAbout">About</string>
     <string name="MikugramVersion">Mikogram Version</string>
 </resources>
