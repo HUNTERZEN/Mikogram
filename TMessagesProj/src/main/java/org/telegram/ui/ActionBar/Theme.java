@@ -89,7 +89,6 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MikugramConfig;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -2475,7 +2474,7 @@ public class Theme {
             if (isDark != UNKNOWN) {
                 return isDark == DARK;
             }
-            if ("Dark Blue".equals(name) || "Night".equals(name)) {
+            if ("Dark Blue".equals(name) || "Night".equals(name) || "AMOLED Black".equals(name)) {
                 isDark = DARK;
             } else if ("Blue".equals(name) || "Arctic Blue".equals(name) || "Day".equals(name)) {
                 isDark = LIGHT;
@@ -4718,6 +4717,30 @@ public class Theme {
         sortAccents(themeInfo);
         themes.add(themeInfo);
         themesDict.put("Night", themeInfo);
+
+        themeInfo = new ThemeInfo();
+        themeInfo.name = "AMOLED Black";
+        themeInfo.assetName = "amoled.attheme";
+        themeInfo.previewBackgroundColor = 0xff000000;
+        themeInfo.previewInColor = 0xff1a1a1a;
+        themeInfo.previewOutColor = 0xff75A2E6;
+        themeInfo.sortIndex = 6;
+        themeInfo.setAccentColorOptions(
+                new int[]    {                    0xFF6ABE3F,                    0xFF8D78E3,                    0xFFDE5E7E,                    0xFF5977E8,                    0xFFDBC11A,                    0xff3e88f7,                    0xff4ab5d3,                    0xff4ab841,                    0xffd95576,                    0xffe27d2b,                    0xff936cda,                    0xffd04336,                    0xffe8ae1c,                    0xff7988a3 },
+                new int[]    {                    0xFF8A5294,                    0xFFB46C1B,                    0xFFAF4F6F,                    0xFF266E8D,                    0xFF744EB7,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000 },
+                new int[]    {                    0xFF6855BB,                    0xFFA53B4A,                    0xFF62499C,                    0xFF2F919D,                    0xFF298B95,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000 },
+                new int[]    {                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000 },
+                new int[]    {                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000 },
+                new int[]    {                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000 },
+                new int[]    {                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xFF000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000,                    0xff000000 },
+                new int[]    {                             9,                            10,                            11,                            12,                            13,                             0,                             1,                             2,                             3,                             4,                             5,                             6,                             7,                             8 },
+                new String[] { "YIxYGEALQVADAAAAA3QbEH0AowY", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "O-wmAfBPSFADAAAA4zINVfD_bro", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "-Xc-np9y2VMCAAAARKr0yNNPYW0", "fqv01SQemVIBAAAApND8LDRUhRU", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "ptuUd96JSFACAAAATobI23sPpz0", "p-pXcflrmFIBAAAAvXYQk-mCwZU", "Nl8Pg2rBQVACAAAA25Lxtb8SDp0", "dhf9pceaQVACAAAAbzdVo4SCiZA", "9GcNVISdSVADAAAAUcw5BYjELW4", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "dk_wwlghOFACAAAAfz9xrxi6euw" },
+                new int[]    {                            45,                           135,                             0,                           180,                             0,                             0,                             0,                             0,                             0,                             0,                             0,                             0,                             0,                             0 },
+                new int[]    {                            34,                            47,                            52,                            48,                            54,                            50,                            37,                            56,                            48,                            49,                            40,                            64,                            38,                            48 }
+                );
+        sortAccents(themeInfo);
+        themes.add(themeInfo);
+        themesDict.put("AMOLED Black", themeInfo);
 
         String themesString = themeConfig.getString("themes2", null);
 
@@ -9595,52 +9618,7 @@ public class Theme {
         if (key_windowBackgroundWhite == key || key_windowBackgroundGray == key || key_actionBarDefault == key || key_actionBarDefaultArchived == key) {
             color |= 0xff000000;
         }
-        // Mikugram: Dark AMOLED override
-        if (MikugramConfig.isDarkAmoled() && currentTheme != null && currentTheme.isDark()) {
-            if (key == key_windowBackgroundWhite ||
-                key == key_windowBackgroundGray ||
-                key == key_actionBarDefault ||
-                key == key_actionBarDefaultArchived ||
-                key == key_dialogBackground ||
-                key == key_windowBackgroundUnchecked ||
-                key == key_windowBackgroundChecked ||
-                key == key_chats_menuBackground ||
-                key == key_chats_menuTopBackground) {
-                return 0xFF000000;
-            }
-            if (key == key_actionBarDefaultTitle ||
-                key == key_actionBarDefaultIcon ||
-                key == key_actionBarDefaultSearch ||
-                key == key_actionBarDefaultArchivedTitle ||
-                key == key_actionBarDefaultArchivedIcon ||
-                key == key_actionBarDefaultArchivedSearch ||
-                key == key_chats_menuItemText ||
-                key == key_chats_menuItemIcon ||
-                key == key_chats_menuName) {
-                return 0xFFFFFFFF;
-            }
-            if (key == key_actionBarDefaultSubtitle ||
-                key == key_chats_menuPhone) {
-                return 0xFFB0B0B0;
-            }
-            if (key == key_actionBarDefaultSearchPlaceholder ||
-                key == key_actionBarDefaultArchivedSearchPlaceholder) {
-                return 0x80FFFFFF;
-            }
-            if (key == key_actionBarDefaultSelector ||
-                key == key_actionBarDefaultArchivedSelector) {
-                return 0x26FFFFFF;
-            }
-            if (key == key_chat_wallpaper) {
-                return 0xFF000000;
-            }
-            if (key == key_graySection) {
-                return 0xFF0A0A0A;
-            }
-            if (key == key_actionBarDefaultSubmenuBackground) {
-                return 0xFF0A0A0A;
-            }
-        }
+
         return color;
     }
 

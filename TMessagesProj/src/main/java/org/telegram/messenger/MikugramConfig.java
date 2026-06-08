@@ -29,7 +29,6 @@ public class MikugramConfig {
     private static final String KEY_HIDE_TIME_ON_STICKER = "hide_time_on_sticker";
 
     // ── Appearance ──
-    private static final String KEY_DARK_AMOLED = "dark_amoled";
     private static final String KEY_TRANSPARENT_STATUS_BAR = "transparent_status_bar";
     private static final String KEY_TABLET_MODE = "tablet_mode";
     private static final String KEY_DISABLE_APPBAR_SHADOW = "disable_appbar_shadow";
@@ -82,7 +81,6 @@ public class MikugramConfig {
     private static boolean hideTimeOnSticker;
 
     // ── Cached values: Appearance ──
-    private static boolean darkAmoled;
     private static boolean transparentStatusBar;
     private static int tabletMode;
     private static boolean disableAppBarShadow;
@@ -128,7 +126,6 @@ public class MikugramConfig {
         hideTimeOnSticker = prefs.getBoolean(KEY_HIDE_TIME_ON_STICKER, false);
 
         // Appearance
-        darkAmoled = prefs.getBoolean(KEY_DARK_AMOLED, false);
         transparentStatusBar = prefs.getBoolean(KEY_TRANSPARENT_STATUS_BAR, false);
         tabletMode = prefs.getInt(KEY_TABLET_MODE, TABLET_AUTO);
         disableAppBarShadow = prefs.getBoolean(KEY_DISABLE_APPBAR_SHADOW, false);
@@ -327,19 +324,6 @@ public class MikugramConfig {
     //  APPEARANCE
     // ═══════════════════════════════════════════
 
-    public static boolean isDarkAmoled() {
-        return true;
-    }
-
-    public static void toggleDarkAmoled() {
-        darkAmoled = !darkAmoled;
-        getPrefs().edit().putBoolean(KEY_DARK_AMOLED, darkAmoled).apply();
-    }
-
-    public static void setDarkAmoled(boolean value) {
-        darkAmoled = value;
-        getPrefs().edit().putBoolean(KEY_DARK_AMOLED, value).apply();
-    }
 
     public static boolean isTransparentStatusBar() {
         loadConfig();
