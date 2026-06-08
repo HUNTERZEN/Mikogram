@@ -97,7 +97,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:760348033671:android:f6afd7b67eae3860",
         "android_client_info": {
-          "package_name": "org.mikugram.messenger"
+          "package_name": "org.mikogram.messenger"
         }
       },
       "oauth_client": [
@@ -126,7 +126,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:760348033671:android:dc022572c167a16c",
         "android_client_info": {
-          "package_name": "org.mikugram.messenger.beta"
+          "package_name": "org.mikogram.messenger.beta"
         }
       },
       "oauth_client": [
@@ -155,7 +155,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:760348033671:android:7396e651423888c3f66e22",
         "android_client_info": {
-          "package_name": "org.mikugram.messenger.web"
+          "package_name": "org.mikogram.messenger.web"
         }
       },
       "oauth_client": [
