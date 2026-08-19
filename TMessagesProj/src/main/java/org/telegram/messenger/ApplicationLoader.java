@@ -261,6 +261,13 @@ public class ApplicationLoader extends Application {
             }
         }
 
+        // Mikugram: sync the Prefer IPv6 setting to ConnectionsManager on startup
+        if (MikugramConfig.isPreferIPv6()) {
+            for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                ConnectionsManager.getInstance(a).setForceTryIpV6(true);
+            }
+        }
+
         ApplicationLoader app = (ApplicationLoader) ApplicationLoader.applicationContext;
         app.initPushServices();
         if (BuildVars.LOGS_ENABLED) {

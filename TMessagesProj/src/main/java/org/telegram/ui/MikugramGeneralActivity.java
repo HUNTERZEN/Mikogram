@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.MikugramConfig;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
+import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -88,7 +90,12 @@ public class MikugramGeneralActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isOpenArchiveOnPull());
             } else if (position == preferIPv6Row) {
                 MikugramConfig.togglePreferIPv6();
-                if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isPreferIPv6());
+                boolean newValue = MikugramConfig.isPreferIPv6();
+                if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(newValue);
+                // Apply to the native connection layer so the setting actually takes effect
+                for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                    ConnectionsManager.getInstance(a).setForceTryIpV6(newValue);
+                }
             }
         });
 
