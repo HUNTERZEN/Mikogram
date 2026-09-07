@@ -45,4 +45,4 @@ JAVA_HOME=/usr/lib/jvm/java-17-openjdk ./gradlew :TMessagesProj_AppStandalone:as
 ---
 
 ## 🔒 Security & Privacy
-Mikogram operates entirely client-side. Your login credentials, chat databases, and media files are stored locally and encrypted using the official Telegram protocols (MTProto). All custom preferences (e.g. Speed Boost, AMOLED mode) are stored locally in Android's private storage.
+Mikogram operates entirely client-side. Your login credentials, chat databases, and media files are stored locally and encrypted using the official Telegram protocols (MTProto). All custom preferences are stored locally in Android's private storage.
