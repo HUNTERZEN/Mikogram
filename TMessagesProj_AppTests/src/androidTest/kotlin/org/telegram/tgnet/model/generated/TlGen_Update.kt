@@ -2484,4 +2484,130 @@ public sealed class TlGen_Update : TlGen_Object {
       public const val MAGIC: UInt = 0x4BBB8F01U
     }
   }
+
+  public data class TL_updateEphemeralBotCallbackQuery(
+    public val query_id: Long,
+    public val user_id: Long,
+    public val peer: TlGen_Peer?,
+    public val msg_id: Int,
+    public val `data`: List<Byte>,
+    public val chat_instance: Long?,
+    public val message: TlGen_EphemeralMessage,
+  ) : TlGen_Update() {
+    internal val flags: UInt
+      get() {
+        var result = 0U
+        if (peer != null) result = result or 1U
+        if (chat_instance != null) result = result or 2U
+        return result
+      }
+
+    public override fun serializeToStream(stream: OutputSerializedData) {
+      stream.writeInt32(MAGIC.toInt())
+      stream.writeInt32(flags.toInt())
+      stream.writeInt64(query_id)
+      stream.writeInt64(user_id)
+      peer?.serializeToStream(stream)
+      stream.writeInt32(msg_id)
+      stream.writeByteArray(data.toByteArray())
+      chat_instance?.let { stream.writeInt64(it) }
+      message.serializeToStream(stream)
+    }
+
+    public companion object {
+      public const val MAGIC: UInt = 0x7C1079D6U
+    }
+  }
+
+  public data class TL_updateWalletState(
+    public val state: TlGen_WalletState,
+  ) : TlGen_Update() {
+    public override fun serializeToStream(stream: OutputSerializedData) {
+      stream.writeInt32(MAGIC.toInt())
+      state.serializeToStream(stream)
+    }
+
+    public companion object {
+      public const val MAGIC: UInt = 0x6AC3F2AAU
+    }
+  }
+
+  public data class TL_updateSentWalletTransaction(
+    public val gasless: Boolean,
+    public val msg_hash: String,
+    public val transaction: TlGen_WalletTransaction?,
+  ) : TlGen_Update() {
+    internal val flags: UInt
+      get() {
+        var result = 0U
+        if (gasless) result = result or 1U
+        if (transaction != null) result = result or 2U
+        return result
+      }
+
+    public override fun serializeToStream(stream: OutputSerializedData) {
+      stream.writeInt32(MAGIC.toInt())
+      stream.writeInt32(flags.toInt())
+      stream.writeString(msg_hash)
+      transaction?.serializeToStream(stream)
+    }
+
+    public companion object {
+      public const val MAGIC: UInt = 0xB1434D4AU
+    }
+  }
+
+  public data class TL_updateWalletGaslessInfo(
+    public val available: Boolean,
+    public val left: Int,
+    public val reset_at: Int,
+    public val min_amount: Long,
+    public val relayer_address: String,
+  ) : TlGen_Update() {
+    internal val flags: UInt
+      get() {
+        var result = 0U
+        if (available) result = result or 1U
+        return result
+      }
+
+    public override fun serializeToStream(stream: OutputSerializedData) {
+      stream.writeInt32(MAGIC.toInt())
+      stream.writeInt32(flags.toInt())
+      stream.writeInt32(left)
+      stream.writeInt32(reset_at)
+      stream.writeInt64(min_amount)
+      stream.writeString(relayer_address)
+    }
+
+    public companion object {
+      public const val MAGIC: UInt = 0xA8AE1CACU
+    }
+  }
+
+  public data class TL_updateWalletTonConnectSession(
+    public val session: TlGen_TonConnectSession,
+  ) : TlGen_Update() {
+    public override fun serializeToStream(stream: OutputSerializedData) {
+      stream.writeInt32(MAGIC.toInt())
+      session.serializeToStream(stream)
+    }
+
+    public companion object {
+      public const val MAGIC: UInt = 0x50A38E0EU
+    }
+  }
+
+  public data class TL_updateWalletTonConnectPendingDisconnect(
+    public val session_ids: List<Long>,
+  ) : TlGen_Update() {
+    public override fun serializeToStream(stream: OutputSerializedData) {
+      stream.writeInt32(MAGIC.toInt())
+      TlGen_Vector.serializeLong(stream, session_ids)
+    }
+
+    public companion object {
+      public const val MAGIC: UInt = 0xD1EE8199U
+    }
+  }
 }

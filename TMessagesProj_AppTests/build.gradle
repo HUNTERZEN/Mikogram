@@ -1,6 +1,18 @@
+// Kotlin is needed only by this module's existing instrumentation tests.
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0"
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'test-generator'
+apply plugin: 'org.telegram.build-app-plugin'
 
 repositories {
     mavenCentral()
@@ -29,12 +41,11 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 35
-    buildToolsVersion '35.0.0'
+    compileSdkVersion 36
+    buildToolsVersion '36.0.0'
 
     defaultConfig.applicationId = APP_PACKAGE
 
-    sourceSets.main.jniLibs.srcDirs = ['../TMessagesProj/jni/']
     testBuildType "debug"
 
     lintOptions {
@@ -52,6 +63,11 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    androidResources {
+        noCompress += "pack"
+        localeFilters += ["zz"]
     }
 
     signingConfigs {
@@ -132,9 +148,9 @@ android {
 
     defaultConfig {
         minSdkVersion 26
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionName APP_VERSION_NAME
-        ndkVersion "27.2.12479018"
+        ndkVersion "28.2.13676358"
 
         multiDexEnabled true
 
@@ -142,8 +158,9 @@ android {
 
         externalNativeBuild {
             cmake {
-                version '3.10.2'
+                version '3.22.1'
                 arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21' //, '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
+                targets 'tmessages.49'
             }
         }
 

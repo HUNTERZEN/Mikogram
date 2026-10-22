@@ -2825,6 +2825,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
+                    return Math.min(getSpanSizeInternal(position), mediaPage.layoutManager.getSpanCount());
+                }
+
+                private int getSpanSizeInternal(int position) {
                     final int columnsCount = mediaColumnsCount[isAnyStoryPageType(mediaPage.selectedType) ? 1 : 0];
                     if (mediaPage.listView.getAdapter() == photoVideoAdapter) {
                         if (photoVideoAdapter.getItemViewType(position) == 2) {
@@ -3736,19 +3740,15 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 setVisibleHeight(lastVisibleHeight);
             });
 
-            if (iBlur3FactoryLiquidGlass != null) {
-                BlurredBackgroundDrawable filterTabsViewBackground = iBlur3FactoryLiquidGlass.create(scrollSlidingTextTabStrip, BlurredBackgroundProviderImpl.topPanel(resourcesProvider));
-                filterTabsViewBackground.setRadius(dp(18));
-                filterTabsViewBackground.setPadding(dp(6.666f));
-                scrollSlidingTextTabStrip.setPadding(0, dp(7), 0, dp(7));
-                scrollSlidingTextTabStrip.setClipToPadding(false);
-                scrollSlidingTextTabStrip.setBackground(null);
-                scrollSlidingTextTabStrip.setBlurredBackground(filterTabsViewBackground);
-                scrollSlidingTextTabStrip.setOpen(false);
-                addView(scrollSlidingTextTabStrip, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 50, Gravity.CENTER_HORIZONTAL | Gravity.TOP, -2, 0, -2, 0));
-            } else {
-                addView(scrollSlidingTextTabStrip, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.TOP));
-            }
+            BlurredBackgroundDrawable filterTabsViewBackground = iBlur3FactoryLiquidGlass.create(scrollSlidingTextTabStrip, BlurredBackgroundProviderImpl.topPanel(resourcesProvider));
+            filterTabsViewBackground.setRadius(dp(18));
+            filterTabsViewBackground.setPadding(dp(6.666f));
+            scrollSlidingTextTabStrip.setPadding(0, dp(7), 0, dp(7));
+            scrollSlidingTextTabStrip.setClipToPadding(false);
+            scrollSlidingTextTabStrip.setBackground(null);
+            scrollSlidingTextTabStrip.setBlurredBackground(filterTabsViewBackground);
+            scrollSlidingTextTabStrip.setOpen(false);
+            addView(scrollSlidingTextTabStrip, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 50, Gravity.CENTER_HORIZONTAL | Gravity.TOP, -2, 0, -2, 0));
             searchTagsList = new SearchTagsList(getContext(), profileActivity, profileActivity.getCurrentAccount(), includeSavedDialogs() ? 0 : dialog_id, resourcesProvider) {
                 @Override
                 protected boolean setFilter(ReactionsLayoutInBubble.VisibleReaction reaction) {
@@ -3791,6 +3791,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     }
                 }
             };
+            searchTagsList.setBlurredFactory(iBlur3FactoryLiquidGlass, BlurredBackgroundProviderImpl.topPanel(resourcesProvider));
             searchTagsList.setShown(0f);
             addView(searchTagsList, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.LEFT | Gravity.TOP, 0, 4, 0, 0));
             addView(actionModeLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.TOP));
@@ -4472,11 +4473,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             @Override
             public boolean showOptions(int page, View view) {
                 if (profileActivity == null) return false;
-                if (getTab(page, info instanceof TLRPC.TL_channelFull) == null) {
+                final boolean isChannel = isBroadcastChannelProfile();
+                if (getTab(page, isChannel) == null) {
                     return false;
                 }
                 final TLRPC.ProfileTab main_tab;
-                if (info instanceof TLRPC.TL_channelFull) {
+                if (isChannel) {
                     final TLRPC.Chat chat = profileActivity.getMessagesController().getChat(info.id);
                     if (!ChatObject.canUserDoAction(chat, ChatObject.ACTION_POST))
                         return false;
@@ -4494,7 +4496,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 o.add(R.drawable.tabs_reorder, getString(R.string.ProfileTabSetAsMain), () -> {
                     if (profileActivity == null) return;
                     final TLObject r;
-                    if (info instanceof TLRPC.TL_channelFull) {
+                    if (isChannel) {
                         TLRPC.TL_channels_setMainProfileTab req = new TLRPC.TL_channels_setMainProfileTab();
                         req.tab = getTab(page, true);
                         req.channel = profileActivity.getMessagesController().getInputChannel(info.id);
@@ -7045,7 +7047,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     }
                     return false;
                 };
-                final boolean isChannel = info instanceof TLRPC.TL_channelFull;
+                final boolean isChannel = isBroadcastChannelProfile();
                 for (int i = 0; i < 15; ++i) {
                     if (getTab(i, isChannel) != null && !has.run(i)) {
                         tabs.add(new Pair<>(i, getTabName(i)));
@@ -12537,6 +12539,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             .getStoriesController();
     }
 
+    // Supergroups also use TL_channelFull, but only broadcast channels support profile tabs
+    private boolean isBroadcastChannelProfile() {
+        if (info == null || profileActivity == null) return false;
+        return ChatObject.isChannelAndNotMegaGroup(profileActivity.getMessagesController().getChat(info.id));
+    }
+
     public static TLRPC.ProfileTab getTab(int id, boolean isChannel) {
         if (id != TAB_STORIES && id != TAB_GIFTS && !isChannel)
             return null;
@@ -12582,9 +12590,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     public void sendTabsOrder() {
         if (profileActivity == null || scrollSlidingTextTabStrip == null) return;
 
+        final boolean isChannel = isBroadcastChannelProfile();
         final ArrayList<TLRPC.ProfileTab> order = new ArrayList<>();
         for (int id : scrollSlidingTextTabStrip.getTabIds()) {
-            final TLRPC.ProfileTab tab = getTab(id, info instanceof TLRPC.TL_channelFull);
+            final TLRPC.ProfileTab tab = getTab(id, isChannel);
             if (tab != null) {
                 order.add(tab);
             }
