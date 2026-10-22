@@ -1133,6 +1133,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                             try {
                                 view.playSoundEffect(SoundEffectConstants.CLICK);
                             } catch (Exception ignore) {}
+                            org.telegram.messenger.MikugramHaptics.performTickFeedback(view);
                             view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
                             if (onItemClickListener != null) {
                                 onItemClickListener.onItemClick(view, position);
@@ -1152,6 +1153,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                                         try {
                                             view.playSoundEffect(SoundEffectConstants.CLICK);
                                         } catch (Exception ignore) {}
+                                        org.telegram.messenger.MikugramHaptics.performTickFeedback(view);
                                         view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
                                         if (position != -1) {
                                             if (onItemClickListener != null) {

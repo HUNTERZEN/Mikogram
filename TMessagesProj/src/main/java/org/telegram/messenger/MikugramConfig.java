@@ -42,6 +42,20 @@ public class MikugramConfig {
     private static final String KEY_SHOW_RPC_ERROR = "show_rpc_error";
     private static final String KEY_MAP_DRIFTING_FIX = "map_drifting_fix";
 
+    // ── Mods ──
+    private static final String KEY_SHOW_DELETED_MESSAGES = "show_deleted_messages";
+    private static final String KEY_ENABLE_SCREENSHOT = "enable_screenshot";
+    private static final String KEY_ENABLE_FORWARD = "enable_forward";
+    private static final String KEY_VIBRATION_ENABLED = "vibration_enabled";
+    private static final String KEY_VIBRATION_INTENSITY = "vibration_intensity";
+    private static final String KEY_RECENT_STICKERS_LIMIT = "recent_stickers_limit";
+
+    // ── Privacy ──
+    private static final String KEY_HIDE_PHONE_FROM_BOTS = "hide_phone_from_bots";
+    private static final String KEY_HIDE_ONLINE = "hide_online";
+    private static final String KEY_HIDE_TYPING = "hide_typing";
+    private static final String KEY_HIDE_SEEN = "hide_seen";
+
     // ── Constants: Double-tap actions ──
     public static final int DOUBLE_TAP_NONE = 0;
     public static final int DOUBLE_TAP_REACTION = 1;
@@ -94,6 +108,20 @@ public class MikugramConfig {
     private static boolean showRPCError;
     private static boolean mapDriftingFix;
 
+    // ── Cached values: Mods ──
+    private static boolean showDeletedMessages;
+    private static boolean enableScreenshot;
+    private static boolean enableForward;
+    private static boolean vibrationEnabled;
+    private static int vibrationIntensity;
+    private static int recentStickersLimit;
+
+    // ── Cached values: Privacy ──
+    private static boolean hidePhoneFromBots;
+    private static boolean hideOnline;
+    private static boolean hideTyping;
+    private static boolean hideSeen;
+
     private static boolean loaded;
 
     private static SharedPreferences getPrefs() {
@@ -138,6 +166,20 @@ public class MikugramConfig {
         downloadSpeedBoost = prefs.getBoolean(KEY_DOWNLOAD_SPEED_BOOST, false);
         showRPCError = prefs.getBoolean(KEY_SHOW_RPC_ERROR, false);
         mapDriftingFix = prefs.getBoolean(KEY_MAP_DRIFTING_FIX, false);
+
+        // Mods
+        showDeletedMessages = prefs.getBoolean(KEY_SHOW_DELETED_MESSAGES, true);
+        enableScreenshot = prefs.getBoolean(KEY_ENABLE_SCREENSHOT, true);
+        enableForward = prefs.getBoolean(KEY_ENABLE_FORWARD, true);
+        vibrationEnabled = prefs.getBoolean(KEY_VIBRATION_ENABLED, true);
+        vibrationIntensity = prefs.getInt(KEY_VIBRATION_INTENSITY, 100);
+        recentStickersLimit = prefs.getInt(KEY_RECENT_STICKERS_LIMIT, 50);
+
+        // Privacy
+        hidePhoneFromBots = prefs.getBoolean(KEY_HIDE_PHONE_FROM_BOTS, true);
+        hideOnline = prefs.getBoolean(KEY_HIDE_ONLINE, false);
+        hideTyping = prefs.getBoolean(KEY_HIDE_TYPING, false);
+        hideSeen = prefs.getBoolean(KEY_HIDE_SEEN, false);
 
         loaded = true;
     }
@@ -437,5 +479,113 @@ public class MikugramConfig {
     public static void toggleMapDriftingFix() {
         mapDriftingFix = !mapDriftingFix;
         getPrefs().edit().putBoolean(KEY_MAP_DRIFTING_FIX, mapDriftingFix).apply();
+    }
+
+    // ═══════════════════════════════════════════
+    //  MODS
+    // ═══════════════════════════════════════════
+
+    public static boolean isShowDeletedMessages() {
+        loadConfig();
+        return showDeletedMessages;
+    }
+
+    public static void toggleShowDeletedMessages() {
+        showDeletedMessages = !showDeletedMessages;
+        getPrefs().edit().putBoolean(KEY_SHOW_DELETED_MESSAGES, showDeletedMessages).apply();
+    }
+
+    public static boolean isEnableScreenshot() {
+        loadConfig();
+        return enableScreenshot;
+    }
+
+    public static void toggleEnableScreenshot() {
+        enableScreenshot = !enableScreenshot;
+        getPrefs().edit().putBoolean(KEY_ENABLE_SCREENSHOT, enableScreenshot).apply();
+    }
+
+    public static boolean isEnableForward() {
+        loadConfig();
+        return enableForward;
+    }
+
+    public static void toggleEnableForward() {
+        enableForward = !enableForward;
+        getPrefs().edit().putBoolean(KEY_ENABLE_FORWARD, enableForward).apply();
+    }
+
+    public static boolean isVibrationEnabled() {
+        loadConfig();
+        return vibrationEnabled;
+    }
+
+    public static void toggleVibrationEnabled() {
+        vibrationEnabled = !vibrationEnabled;
+        getPrefs().edit().putBoolean(KEY_VIBRATION_ENABLED, vibrationEnabled).apply();
+    }
+
+    public static int getVibrationIntensity() {
+        loadConfig();
+        return vibrationIntensity;
+    }
+
+    public static void setVibrationIntensity(int intensity) {
+        vibrationIntensity = intensity;
+        getPrefs().edit().putInt(KEY_VIBRATION_INTENSITY, intensity).apply();
+    }
+
+    public static int getRecentStickersLimit() {
+        loadConfig();
+        return recentStickersLimit;
+    }
+
+    public static void setRecentStickersLimit(int limit) {
+        recentStickersLimit = limit;
+        getPrefs().edit().putInt(KEY_RECENT_STICKERS_LIMIT, limit).apply();
+    }
+
+    // ═══════════════════════════════════════════
+    //  PRIVACY
+    // ═══════════════════════════════════════════
+
+    public static boolean isHidePhoneFromBots() {
+        loadConfig();
+        return hidePhoneFromBots;
+    }
+
+    public static void toggleHidePhoneFromBots() {
+        hidePhoneFromBots = !hidePhoneFromBots;
+        getPrefs().edit().putBoolean(KEY_HIDE_PHONE_FROM_BOTS, hidePhoneFromBots).apply();
+    }
+
+    public static boolean isHideOnline() {
+        loadConfig();
+        return hideOnline;
+    }
+
+    public static void toggleHideOnline() {
+        hideOnline = !hideOnline;
+        getPrefs().edit().putBoolean(KEY_HIDE_ONLINE, hideOnline).apply();
+    }
+
+    public static boolean isHideTyping() {
+        loadConfig();
+        return hideTyping;
+    }
+
+    public static void toggleHideTyping() {
+        hideTyping = !hideTyping;
+        getPrefs().edit().putBoolean(KEY_HIDE_TYPING, hideTyping).apply();
+    }
+
+    public static boolean isHideSeen() {
+        loadConfig();
+        return hideSeen;
+    }
+
+    public static void toggleHideSeen() {
+        hideSeen = !hideSeen;
+        getPrefs().edit().putBoolean(KEY_HIDE_SEEN, hideSeen).apply();
     }
 }

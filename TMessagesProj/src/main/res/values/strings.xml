@@ -11077,6 +11077,33 @@
     <string name="MikugramMapDriftingFixInfo">Fix map coordinate drifting in some regions (e.g. China)</string>
     <string name="MikugramExperimentalInfo">Advanced network and debugging options</string>
 
+    <!-- ── Mods ── -->
+    <string name="MikugramMods">Mods</string>
+    <string name="MikugramModsInfo">Customize your Mikogram experience with Mikogram Mods.</string>
+    <string name="MikugramShowDeletedMessages">Show Deleted Messages</string>
+    <string name="MikugramShowDeletedMessagesInfo">Keep messages deleted by users visible with a small red bin icon</string>
+    <string name="MikugramEnableScreenshot">Enable Screenshot</string>
+    <string name="MikugramEnableScreenshotInfo">Take screenshots anywhere, even in restricted chats</string>
+    <string name="MikugramEnableForward">Enable Forward</string>
+    <string name="MikugramEnableForwardInfo">Forward anything from any group, channel or bot</string>
+    <string name="MikugramVibration">Vibration</string>
+    <string name="MikugramVibrationInfo">Vibrate on replies, folders and interactions</string>
+    <string name="MikugramVibrationIntensity">Vibration Intensity</string>
+    <string name="MikugramRecentStickersLimit">Recent Stickers Limit</string>
+    <string name="MikugramRecentStickersLimitInfo">Set the maximum number of recent stickers to show</string>
+
+    <!-- ── Privacy ── -->
+    <string name="MikugramPrivacy">Privacy</string>
+    <string name="MikugramPrivacyInfo">Keep your account more private and secure.</string>
+    <string name="MikugramHidePhoneFromBots">Hide Phone From Bots</string>
+    <string name="MikugramHidePhoneFromBotsInfo">Never share your phone number with bots or strangers</string>
+    <string name="MikugramHideOnline">Hide Online</string>
+    <string name="MikugramHideOnlineInfo">Always appear offline, never show your online status</string>
+    <string name="MikugramHideTyping">Hide Typing</string>
+    <string name="MikugramHideTypingInfo">Do not send typing or recording status in chats</string>
+    <string name="MikugramHideSeen">Hide Seen</string>
+    <string name="MikugramHideSeenInfo">Hide double-tick read receipts and story view status in chats</string>
+
     <!-- ── About ── -->
     <string name="MikugramAbout">About</string>
     <string name="MikugramVersion">Mikogram Version</string>

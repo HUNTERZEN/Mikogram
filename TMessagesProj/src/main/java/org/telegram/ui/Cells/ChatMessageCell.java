@@ -18500,6 +18500,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         } else {
             currentTimeString = timeString;
         }
+        if (currentMessageObject != null && currentMessageObject.deleted && org.telegram.messenger.MikugramConfig.isShowDeletedMessages()) {
+            android.text.SpannableString trashSpan = new android.text.SpannableString("🗑 ");
+            trashSpan.setSpan(new android.text.style.ForegroundColorSpan(0xffe53935), 0, trashSpan.length(), android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            currentTimeString = TextUtils.concat(trashSpan, currentTimeString);
+        }
         if (currentMessageObject.isStakedDice()) {
             currentTimeString = TextUtils.concat("💎", StarsIntroActivity.formatTON(currentMessageObject.getStakedDiceAmount()), "  ", currentTimeString);
             currentTimeString = StarsIntroActivity.replaceDiamond(currentTimeString, 0.55f, null, 0, dp(-.33f), 1.05f);

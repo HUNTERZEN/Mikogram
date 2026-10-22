@@ -1120,6 +1120,7 @@ public class FilterTabsView extends FrameLayout {
                 }
                 return;
             }
+            org.telegram.messenger.MikugramHaptics.performTickFeedback(view);
             if (position == currentPosition && delegate != null) {
                 delegate.onSamePageSelected();
                 return;

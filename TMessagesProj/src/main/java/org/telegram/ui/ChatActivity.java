@@ -26489,6 +26489,13 @@ public class ChatActivity extends BaseFragment implements
                         updatedSelected = true;
                         addToSelectedMessages(obj, false, updatedSelectedLast = (a == size - 1));
                     }
+                    if (org.telegram.messenger.MikugramConfig.isShowDeletedMessages() && !obj.isOutOwner()) {
+                        obj.deleted = true;
+                        if (chatAdapter != null) {
+                            chatAdapter.notifyItemChanged(index);
+                        }
+                        continue;
+                    }
                     MessageObject removed = chatAdapter != null && chatAdapter.isFiltered && filteredMessagesDict != null ? chatAdapter.filteredMessages.remove(index) : messages.remove(index);
                     if (chatAdapter != null) {
                         if (chatAdapter.isFiltered) {

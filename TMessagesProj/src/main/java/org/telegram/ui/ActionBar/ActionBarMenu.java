@@ -390,6 +390,7 @@ public class ActionBarMenu extends LinearLayout {
     }
 
     public void onItemClick(int id) {
+        org.telegram.messenger.MikugramHaptics.performTickFeedback(this);
         if (parentActionBar.actionBarMenuOnItemClick != null) {
             parentActionBar.actionBarMenuOnItemClick.onItemClick(id);
         }

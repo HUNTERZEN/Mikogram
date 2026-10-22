@@ -270,6 +270,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         addView(backButtonImageView, LayoutHelper.createFrame(54, 54, Gravity.LEFT | Gravity.TOP));
 
         backButtonImageView.setOnClickListener(v -> {
+            org.telegram.messenger.MikugramHaptics.performTickFeedback(v);
             if (!actionModeVisible && isSearchFieldVisible) {
                 closeSearchField();
                 return;

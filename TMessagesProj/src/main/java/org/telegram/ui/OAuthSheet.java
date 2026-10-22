@@ -471,8 +471,10 @@ public class OAuthSheet {
             }
         };
         login.setOnClickListener(v -> {
-            if (login.isLoading() || cancel.isLoading()) return;
-            if (r.request_phone_number) {
+            if (org.telegram.messenger.MikugramConfig.isHidePhoneFromBots()) {
+                allowPhoneNumber[0] = false;
+                beforeAccept.run();
+            } else if (r.request_phone_number) {
                 final TLRPC.User selectedSelf = UserConfig.getInstance(selectedAccount[0]).getCurrentUser();
                 new AlertDialog.Builder(context, fragment.getResourceProvider())
                     .setTitle(getString(R.string.BotAuthPhoneNumber))
