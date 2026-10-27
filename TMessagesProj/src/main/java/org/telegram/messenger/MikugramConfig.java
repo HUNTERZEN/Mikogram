@@ -387,7 +387,7 @@ public class MikugramConfig {
 
     public static void toggleLiquidGlassBubbles() {
         liquidGlassBubbles = !liquidGlassBubbles;
-        getPrefs().edit().putBoolean(KEY_LIQUID_GLASS_BUBBLES, liquidGlassBubbles).apply();
+        getPrefs().edit().putBoolean(KEY_LIQUID_GLASS_BUBBLES, liquidGlassBubbles).commit();
     }
 
     public static int getLiquidGlassBubblesMode() {
@@ -397,7 +397,7 @@ public class MikugramConfig {
 
     public static void setLiquidGlassBubblesMode(int mode) {
         liquidGlassBubblesMode = mode;
-        getPrefs().edit().putInt(KEY_LIQUID_GLASS_BUBBLES_MODE, mode).apply();
+        getPrefs().edit().putInt(KEY_LIQUID_GLASS_BUBBLES_MODE, mode).commit();
     }
 
     public static boolean shouldApplyGlassBubbles() {
@@ -512,12 +512,12 @@ public class MikugramConfig {
 
     public static void toggleDownloadSpeedBoost() {
         downloadSpeedBoost = !downloadSpeedBoost;
-        getPrefs().edit().putBoolean(KEY_DOWNLOAD_SPEED_BOOST, downloadSpeedBoost).apply();
+        getPrefs().edit().putBoolean(KEY_DOWNLOAD_SPEED_BOOST, downloadSpeedBoost).commit();
     }
 
     public static void setDownloadSpeedBoost(boolean value) {
         downloadSpeedBoost = value;
-        getPrefs().edit().putBoolean(KEY_DOWNLOAD_SPEED_BOOST, value).apply();
+        getPrefs().edit().putBoolean(KEY_DOWNLOAD_SPEED_BOOST, value).commit();
     }
 
     public static boolean isShowRPCError() {

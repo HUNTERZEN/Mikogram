@@ -883,6 +883,7 @@ public class FileLoadOperation {
         }
         if (org.telegram.messenger.MikugramConfig.isDownloadSpeedBoost()) {
             currentMaxDownloadRequests = 32;
+            downloadConnectionsCount = ConnectionsManager.DownloadConnectionsCount;
             if (currentDownloadChunkSize < 1024 * 512) {
                 currentDownloadChunkSize = 1024 * 512;
             }

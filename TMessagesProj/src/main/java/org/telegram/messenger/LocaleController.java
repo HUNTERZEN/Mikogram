@@ -2951,6 +2951,12 @@ public class LocaleController {
     }
 
     public static String formatUserStatus(int currentAccount, TLRPC.User user, boolean[] isOnline, boolean[] madeShorter) {
+        if (user != null && UserObject.isUserSelf(user) && MikugramConfig.isHideOnline()) {
+            if (isOnline != null) {
+                isOnline[0] = false;
+            }
+            return getString("Invisible", R.string.Invisible);
+        }
         if (user != null && user.status != null && user.status.expires == 0) {
             if (user.status instanceof TLRPC.TL_userStatusRecently) {
                 user.status.expires = user.status.by_me ? -1000 : -100;

@@ -144,7 +144,7 @@ public class MikugramGeneralActivity extends BaseFragment {
                 }
             }
             // Mods toggles
-            else if (position == downloadSpeedBoostRow) {
+            if (position == downloadSpeedBoostRow) {
                 MikugramConfig.toggleDownloadSpeedBoost();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isDownloadSpeedBoost());
                 MikugramHaptics.performHapticFeedback(view);

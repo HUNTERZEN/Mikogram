@@ -11,9 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MikugramConfig;
+import org.telegram.messenger.MikugramHaptics;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -82,26 +86,42 @@ public class MikugramAppearanceActivity extends BaseFragment {
         listView.setOnItemClickListener((view, position) -> {
             if (position == liquidGlassBubblesRow) {
                 MikugramConfig.toggleLiquidGlassBubbles();
-                if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isLiquidGlassBubbles());
+                boolean enabled = MikugramConfig.isLiquidGlassBubbles();
+                if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(enabled);
                 if (listAdapter != null) listAdapter.notifyItemChanged(liquidGlassBubblesModeRow);
-                Theme.reloadAllResources(getParentActivity());
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme);
+                MikugramHaptics.performHapticFeedback(view);
+                Context ctx = getParentActivity() != null ? getParentActivity() : (context != null ? context : ApplicationLoader.applicationContext);
+                if (ctx != null) {
+                    Theme.reloadAllResources(ctx);
+                }
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, Theme.isCurrentThemeDark(), false);
+                for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                    if (UserConfig.getInstance(a).isClientActivated()) {
+                        NotificationCenter.getInstance(a).postNotificationName(NotificationCenter.updateInterfaces, MessagesController.UPDATE_MASK_ALL);
+                    }
+                }
             } else if (position == liquidGlassBubblesModeRow) {
-                showLiquidGlassBubblesModeDialog();
+                if (MikugramConfig.isLiquidGlassBubbles()) {
+                    showLiquidGlassBubblesModeDialog();
+                }
             } else if (position == transparentStatusBarRow) {
                 MikugramConfig.toggleTransparentStatusBar();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isTransparentStatusBar());
+                MikugramHaptics.performHapticFeedback(view);
             } else if (position == tabletModeRow) {
                 showTabletModeDialog();
             } else if (position == disableAppBarShadowRow) {
                 MikugramConfig.toggleDisableAppBarShadow();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isDisableAppBarShadow());
+                MikugramHaptics.performHapticFeedback(view);
             } else if (position == mediaPreviewRow) {
                 MikugramConfig.toggleMediaPreview();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isMediaPreview());
+                MikugramHaptics.performHapticFeedback(view);
             } else if (position == formatTimeWithSecondsRow) {
                 MikugramConfig.toggleFormatTimeWithSeconds();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isFormatTimeWithSeconds());
+                MikugramHaptics.performHapticFeedback(view);
             }
         });
 
@@ -120,8 +140,16 @@ public class MikugramAppearanceActivity extends BaseFragment {
         builder.setItems(options, (dialog, which) -> {
             MikugramConfig.setLiquidGlassBubblesMode(which);
             if (listAdapter != null) listAdapter.notifyItemChanged(liquidGlassBubblesModeRow);
-            Theme.reloadAllResources(getParentActivity());
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme);
+            Context context = getParentActivity() != null ? getParentActivity() : ApplicationLoader.applicationContext;
+            if (context != null) {
+                Theme.reloadAllResources(context);
+            }
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, Theme.isCurrentThemeDark(), false);
+            for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                if (UserConfig.getInstance(a).isClientActivated()) {
+                    NotificationCenter.getInstance(a).postNotificationName(NotificationCenter.updateInterfaces, MessagesController.UPDATE_MASK_ALL);
+                }
+            }
         });
         showDialog(builder.create());
     }
@@ -167,6 +195,10 @@ public class MikugramAppearanceActivity extends BaseFragment {
         public ListAdapter(Context context) { mContext = context; }
 
         @Override public boolean isEnabled(RecyclerView.ViewHolder holder) {
+            int position = holder.getAdapterPosition();
+            if (position == liquidGlassBubblesModeRow) {
+                return MikugramConfig.isLiquidGlassBubbles();
+            }
             int type = holder.getItemViewType();
             return type == 1 || type == 3;
         }
@@ -201,8 +233,16 @@ public class MikugramAppearanceActivity extends BaseFragment {
                 }
                 case 3: {
                     TextSettingsCell cell = (TextSettingsCell) holder.itemView;
-                    if (position == liquidGlassBubblesModeRow) cell.setTextAndValue(getString(R.string.MikugramGlassBubblesMode), getGlassBubblesModeText(), true);
-                    else if (position == tabletModeRow) cell.setTextAndValue(getString(R.string.MikugramTabletMode), getTabletModeText(), true);
+                    if (position == liquidGlassBubblesModeRow) {
+                        cell.setTextAndValue(getString(R.string.MikugramGlassBubblesMode), getGlassBubblesModeText(), true);
+                        boolean enabled = MikugramConfig.isLiquidGlassBubbles();
+                        cell.setEnabled(enabled);
+                        cell.setAlpha(enabled ? 1.0f : 0.5f);
+                    } else if (position == tabletModeRow) {
+                        cell.setTextAndValue(getString(R.string.MikugramTabletMode), getTabletModeText(), true);
+                        cell.setEnabled(true);
+                        cell.setAlpha(1.0f);
+                    }
                     break;
                 }
                 case 2:

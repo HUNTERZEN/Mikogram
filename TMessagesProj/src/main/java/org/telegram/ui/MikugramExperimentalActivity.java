@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.MikugramConfig;
+import org.telegram.messenger.MikugramHaptics;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -74,15 +75,19 @@ public class MikugramExperimentalActivity extends BaseFragment {
             if (position == showNetworkSpeedRow) {
                 MikugramConfig.toggleShowNetworkSpeed();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isShowNetworkSpeed());
+                MikugramHaptics.performHapticFeedback(view);
             } else if (position == downloadSpeedBoostRow) {
                 MikugramConfig.toggleDownloadSpeedBoost();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isDownloadSpeedBoost());
+                MikugramHaptics.performHapticFeedback(view);
             } else if (position == showRPCErrorRow) {
                 MikugramConfig.toggleShowRPCError();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isShowRPCError());
+                MikugramHaptics.performHapticFeedback(view);
             } else if (position == mapDriftingFixRow) {
                 MikugramConfig.toggleMapDriftingFix();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isMapDriftingFix());
+                MikugramHaptics.performHapticFeedback(view);
             }
         });
 

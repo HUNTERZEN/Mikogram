@@ -10512,18 +10512,24 @@ public class MessagesController extends BaseController implements NotificationCe
             getConnectionsManager().cancelRequest(statusRequest, true);
             statusRequest = 0;
         }
-        statusSettingState = 0;
+        statusSettingState = hide ? 2 : 1;
         TL_account.updateStatus req = new TL_account.updateStatus();
         req.offline = hide;
         statusRequest = getConnectionsManager().sendRequest(req, (response, error) -> {
             if (error == null) {
                 offlineSent = hide;
-                if (!hide) {
-                    lastStatusUpdateTime = System.currentTimeMillis();
-                }
+                lastStatusUpdateTime = System.currentTimeMillis();
             }
+            statusSettingState = 0;
             statusRequest = 0;
         });
+        if (hide) {
+            TLRPC.User currentUser = getUserConfig().getCurrentUser();
+            if (currentUser != null) {
+                currentUser.status = new TLRPC.TL_userStatusRecently();
+            }
+        }
+        NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.updateInterfaces, UPDATE_MASK_STATUS);
     }
 
     public void updateTimerProc() {
@@ -10534,7 +10540,7 @@ public class MessagesController extends BaseController implements NotificationCe
 
         if (getUserConfig().isClientActivated()) {
             if (MikugramConfig.isHideOnline()) {
-                if (!offlineSent && statusSettingState != 2) {
+                if (statusSettingState != 2 && !offlineSent) {
                     statusSettingState = 2;
                     if (statusRequest != 0) {
                         getConnectionsManager().cancelRequest(statusRequest, true);
@@ -10543,6 +10549,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     req.offline = true;
                     statusRequest = getConnectionsManager().sendRequest(req, (response, error) -> {
                         if (error == null) {
+                            lastStatusUpdateTime = System.currentTimeMillis();
                             offlineSent = true;
                         }
                         statusSettingState = 0;
@@ -19995,11 +20002,15 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
                         if (currentUser != null) {
                             currentUser.id = update.user_id;
-                            currentUser.status = update.status;
+                            if (update.user_id == getUserConfig().getClientUserId() && MikugramConfig.isHideOnline()) {
+                                currentUser.status = new TLRPC.TL_userStatusRecently();
+                            } else {
+                                currentUser.status = update.status;
+                            }
                         }
                         TLRPC.User toDbUser = new TLRPC.TL_user();
                         toDbUser.id = update.user_id;
-                        toDbUser.status = update.status;
+                        toDbUser.status = (update.user_id == getUserConfig().getClientUserId() && MikugramConfig.isHideOnline()) ? new TLRPC.TL_userStatusRecently() : update.status;
                         dbUsersStatus.add(toDbUser);
                         if (update.user_id == getUserConfig().getClientUserId()) {
                             getNotificationsController().setLastOnlineFromOtherDevice(update.status.expires);

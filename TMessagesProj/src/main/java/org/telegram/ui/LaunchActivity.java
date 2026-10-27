@@ -7343,7 +7343,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             fragment.showDialog(dialog);
             dialog.setCanceledOnTouchOutside(false);
         } else if (id == NotificationCenter.didSetNewTheme) {
-            Boolean nightTheme = (Boolean) args[0];
+            Boolean nightTheme = args != null && args.length > 0 && args[0] instanceof Boolean ? (Boolean) args[0] : false;
             if (!nightTheme) {
                 try {
                     setTaskDescription(new ActivityManager.TaskDescription(null, null, Theme.getColor(Theme.key_actionBarDefault) | 0xff000000));
@@ -7352,10 +7352,10 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 }
             }
             boolean checkNavigationBarColor = true;
-            if (args.length > 1) {
+            if (args != null && args.length > 1 && args[1] instanceof Boolean) {
                 checkNavigationBarColor = (boolean) args[1];
             }
-            checkSystemBarColors(args.length > 2 && (boolean) args[2], true, checkNavigationBarColor && !isNavigationBarColorFrozen && !actionBarLayout.isTransitionAnimationInProgress());
+            checkSystemBarColors(args != null && args.length > 2 && args[2] instanceof Boolean && (boolean) args[2], true, checkNavigationBarColor && !isNavigationBarColorFrozen && !actionBarLayout.isTransitionAnimationInProgress());
         } else if (id == NotificationCenter.needSetDayNightTheme) {
             boolean instant = false;
             if (args[2] != null) {
