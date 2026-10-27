@@ -10,6 +10,7 @@ import androidx.core.math.MathUtils;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
+import org.telegram.messenger.MikugramConfig;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -336,19 +337,24 @@ public class BlurredBackgroundProviderImpl {
     }
 
     public static boolean checkBlurEnabled(int currentAccount, Theme.ResourcesProvider resourcesProvider) {
+        if (!SharedConfig.chatBlurEnabled()) {
+            return false;
+        }
+        if (MikugramConfig.isLiquidGlassBubbles()) {
+            return true;
+        }
         final boolean isDark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
         final boolean isLight = !isDark;
-        boolean blurEnabled = SharedConfig.chatBlurEnabled();
-        if (blurEnabled && isLight) {
+        if (isLight) {
             if (MessagesController.getInstance(currentAccount).config.disableBlurInLightTheme.get()) {
-                blurEnabled = false;
+                return false;
             }
         }
-        if (blurEnabled && isDark) {
+        if (isDark) {
             if (MessagesController.getInstance(currentAccount).config.disableBlurInDarkTheme.get()) {
-                blurEnabled = false;
+                return false;
             }
         }
-        return blurEnabled;
+        return true;
     }
 }

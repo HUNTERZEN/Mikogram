@@ -11052,6 +11052,12 @@
     <string name="MikugramAppearance">Appearance</string>
     <string name="MikugramDarkAmoled">Dark AMOLED</string>
     <string name="MikugramDarkAmoledInfo">Use pure black backgrounds for OLED screens. Works with Night and Dark Blue themes.</string>
+    <string name="MikugramLiquidGlassBubbles">Liquid Glass Bubbles</string>
+    <string name="MikugramLiquidGlassBubblesInfo">Apply frosted glass transparency to chat message bubbles so wallpaper shows through</string>
+    <string name="MikugramGlassBubblesMode">Glass Bubbles Scope</string>
+    <string name="MikugramGlassBubblesAmoledOnly">AMOLED Dark only</string>
+    <string name="MikugramGlassBubblesDarkOnly">All Dark themes</string>
+    <string name="MikugramGlassBubblesAllThemes">All themes (Dark + Light)</string>
     <string name="MikugramTransparentStatusBar">Transparent Status Bar</string>
     <string name="MikugramTransparentStatusBarInfo">Make the status bar transparent for a more immersive experience</string>
     <string name="MikugramTabletMode">Tablet Mode</string>

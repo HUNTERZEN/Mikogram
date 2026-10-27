@@ -22,6 +22,7 @@ import android.graphics.drawable.NinePatchDrawable;
 import androidx.core.graphics.ColorUtils;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.MikugramConfig;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.blur3.utils.NinePatchBuilder;
@@ -174,6 +175,20 @@ public class MessageDrawable extends Drawable {
         return resourcesProvider != null ? resourcesProvider.getCurrentColor(key) : Theme.getCurrentColor(key);
     }
 
+    public static int applyGlassAlpha(int color, boolean isOut) {
+        if (!MikugramConfig.shouldApplyGlassBubbles()) {
+            return color;
+        }
+        boolean isDark = Theme.isCurrentThemeDark();
+        float alpha;
+        if (isDark) {
+            alpha = isOut ? 0.50f : 0.44f;
+        } else {
+            alpha = isOut ? 0.54f : 0.48f;
+        }
+        return ColorUtils.setAlphaComponent(color, (int) (255 * alpha));
+    }
+
     public void setBotButtonsBottom(boolean botButtonsBottom) {
         this.botButtonsBottom = botButtonsBottom;
     }
@@ -212,6 +227,12 @@ public class MessageDrawable extends Drawable {
         }
         if (gradientColor1 != 0) {
             color = getColor(Theme.key_chat_outBubble);
+        }
+        if (MikugramConfig.shouldApplyGlassBubbles()) {
+            color = applyGlassAlpha(color, isOut);
+            if (gradientColor1 != 0) gradientColor1 = applyGlassAlpha(gradientColor1, isOut);
+            if (gradientColor2 != 0) gradientColor2 = applyGlassAlpha(gradientColor2, isOut);
+            if (gradientColor3 != 0) gradientColor3 = applyGlassAlpha(gradientColor3, isOut);
         }
         int num = 0;
         if (themePreview) {
@@ -283,6 +304,9 @@ public class MessageDrawable extends Drawable {
             currentGradientColor2 = gradientColor2;
             currentGradientColor3 = gradientColor3;
             paint.setColor(0xffffffff);
+            if (MikugramConfig.shouldApplyGlassBubbles()) {
+                paint.setAlpha(isOut ? (int) (255 * 0.50f) : (int) (255 * 0.44f));
+            }
         } else if (gradientColor1 == 0) {
             if (gradientShader != null) {
                 gradientShader = null;
@@ -362,8 +386,14 @@ public class MessageDrawable extends Drawable {
         } else {
             color = getColor(isOut ? Theme.key_chat_outBubble : Theme.key_chat_inBubble);
         }
+        if (MikugramConfig.shouldApplyGlassBubbles()) {
+            color = applyGlassAlpha(color, isOut);
+        }
 
         boolean drawWithShadow = shadow && gradientShader == null && !isSelected && !isCrossfadeBackground;
+        if (MikugramConfig.shouldApplyGlassBubbles()) {
+            drawWithShadow = false;
+        }
         int shadowColor = getColor(isOut ? Theme.key_chat_outBubbleShadow : Theme.key_chat_inBubbleShadow);
         if (lastDrawWithShadow != drawWithShadow || currentBackgroundDrawableRadius[idx2][idx] != newRad || (drawWithShadow && shadowDrawableColor[idx] != shadowColor) || backgroundDrawableColor[idx2][idx] != color) {
             currentBackgroundDrawableRadius[idx2][idx] = newRad;
@@ -404,7 +434,8 @@ public class MessageDrawable extends Drawable {
                 setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
                 draw(canvas, shadowPaint);
 
-                backgroundDrawable[idx2][idx] = new NinePatchDrawable(bitmap, getByteBuffer(bitmap.getWidth() / 2 - 1, bitmap.getWidth() / 2 + 1, bitmap.getHeight() / 2 - 1, bitmap.getHeight() / 2 + 1, color).array(), new Rect(), null);
+                int centralColorHint = Color.alpha(color) < 255 ? NinePatchBuilder.TRANSPARENT_COLOR : color;
+                backgroundDrawable[idx2][idx] = new NinePatchDrawable(bitmap, getByteBuffer(bitmap.getWidth() / 2 - 1, bitmap.getWidth() / 2 + 1, bitmap.getHeight() / 2 - 1, bitmap.getHeight() / 2 + 1, centralColorHint).array(), new Rect(), null);
                 setBounds(backupRect);
             } catch (Throwable ignore) {
 
@@ -446,7 +477,7 @@ public class MessageDrawable extends Drawable {
     }
 
     public Drawable getShadowDrawable() {
-        if (isCrossfadeBackground) {
+        if (isCrossfadeBackground || MikugramConfig.shouldApplyGlassBubbles()) {
             return null;
         }
         if (gradientShader == null && !isSelected && crossfadeFromDrawable == null) {

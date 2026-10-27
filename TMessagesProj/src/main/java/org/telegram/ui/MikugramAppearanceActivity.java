@@ -32,6 +32,8 @@ public class MikugramAppearanceActivity extends BaseFragment {
     private int rowCount;
 
     private int headerRow;
+    private int liquidGlassBubblesRow;
+    private int liquidGlassBubblesModeRow;
     private int transparentStatusBarRow;
     private int tabletModeRow;
     private int disableAppBarShadowRow;
@@ -43,6 +45,8 @@ public class MikugramAppearanceActivity extends BaseFragment {
     public boolean onFragmentCreate() {
         rowCount = 0;
         headerRow = rowCount++;
+        liquidGlassBubblesRow = rowCount++;
+        liquidGlassBubblesModeRow = rowCount++;
         transparentStatusBarRow = rowCount++;
         tabletModeRow = rowCount++;
         disableAppBarShadowRow = rowCount++;
@@ -76,7 +80,15 @@ public class MikugramAppearanceActivity extends BaseFragment {
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         listView.setOnItemClickListener((view, position) -> {
-            if (position == transparentStatusBarRow) {
+            if (position == liquidGlassBubblesRow) {
+                MikugramConfig.toggleLiquidGlassBubbles();
+                if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isLiquidGlassBubbles());
+                if (listAdapter != null) listAdapter.notifyItemChanged(liquidGlassBubblesModeRow);
+                Theme.reloadAllResources(getParentActivity());
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme);
+            } else if (position == liquidGlassBubblesModeRow) {
+                showLiquidGlassBubblesModeDialog();
+            } else if (position == transparentStatusBarRow) {
                 MikugramConfig.toggleTransparentStatusBar();
                 if (view instanceof TextCheckCell) ((TextCheckCell) view).setChecked(MikugramConfig.isTransparentStatusBar());
             } else if (position == tabletModeRow) {
@@ -94,6 +106,36 @@ public class MikugramAppearanceActivity extends BaseFragment {
         });
 
         return fragmentView;
+    }
+
+    private void showLiquidGlassBubblesModeDialog() {
+        if (getParentActivity() == null) return;
+        String[] options = {
+            getString(R.string.MikugramGlassBubblesAmoledOnly),
+            getString(R.string.MikugramGlassBubblesDarkOnly),
+            getString(R.string.MikugramGlassBubblesAllThemes)
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+        builder.setTitle(getString(R.string.MikugramGlassBubblesMode));
+        builder.setItems(options, (dialog, which) -> {
+            MikugramConfig.setLiquidGlassBubblesMode(which);
+            if (listAdapter != null) listAdapter.notifyItemChanged(liquidGlassBubblesModeRow);
+            Theme.reloadAllResources(getParentActivity());
+            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme);
+        });
+        showDialog(builder.create());
+    }
+
+    private String getGlassBubblesModeText() {
+        switch (MikugramConfig.getLiquidGlassBubblesMode()) {
+            case MikugramConfig.GLASS_BUBBLES_AMOLED_ONLY:
+                return getString(R.string.MikugramGlassBubblesAmoledOnly);
+            case MikugramConfig.GLASS_BUBBLES_DARK_ONLY:
+                return getString(R.string.MikugramGlassBubblesDarkOnly);
+            case MikugramConfig.GLASS_BUBBLES_ALL_THEMES:
+            default:
+                return getString(R.string.MikugramGlassBubblesAllThemes);
+        }
     }
 
     private void showTabletModeDialog() {
@@ -150,7 +192,8 @@ public class MikugramAppearanceActivity extends BaseFragment {
                     break;
                 case 1: {
                     TextCheckCell cell = (TextCheckCell) holder.itemView;
-                    if (position == transparentStatusBarRow) cell.setTextAndCheck(getString(R.string.MikugramTransparentStatusBar), MikugramConfig.isTransparentStatusBar(), true);
+                    if (position == liquidGlassBubblesRow) cell.setTextAndCheck(getString(R.string.MikugramLiquidGlassBubbles), MikugramConfig.isLiquidGlassBubbles(), true);
+                    else if (position == transparentStatusBarRow) cell.setTextAndCheck(getString(R.string.MikugramTransparentStatusBar), MikugramConfig.isTransparentStatusBar(), true);
                     else if (position == disableAppBarShadowRow) cell.setTextAndCheck(getString(R.string.MikugramDisableAppBarShadow), MikugramConfig.isDisableAppBarShadow(), true);
                     else if (position == mediaPreviewRow) cell.setTextAndCheck(getString(R.string.MikugramMediaPreview), MikugramConfig.isMediaPreview(), true);
                     else if (position == formatTimeWithSecondsRow) cell.setTextAndCheck(getString(R.string.MikugramFormatTimeWithSeconds), MikugramConfig.isFormatTimeWithSeconds(), false);
@@ -158,7 +201,8 @@ public class MikugramAppearanceActivity extends BaseFragment {
                 }
                 case 3: {
                     TextSettingsCell cell = (TextSettingsCell) holder.itemView;
-                    if (position == tabletModeRow) cell.setTextAndValue(getString(R.string.MikugramTabletMode), getTabletModeText(), true);
+                    if (position == liquidGlassBubblesModeRow) cell.setTextAndValue(getString(R.string.MikugramGlassBubblesMode), getGlassBubblesModeText(), true);
+                    else if (position == tabletModeRow) cell.setTextAndValue(getString(R.string.MikugramTabletMode), getTabletModeText(), true);
                     break;
                 }
                 case 2:
@@ -170,7 +214,7 @@ public class MikugramAppearanceActivity extends BaseFragment {
         @Override
         public int getItemViewType(int position) {
             if (position == headerRow) return 0;
-            if (position == tabletModeRow) return 3;
+            if (position == tabletModeRow || position == liquidGlassBubblesModeRow) return 3;
             if (position == infoRow) return 2;
             return 1;
         }

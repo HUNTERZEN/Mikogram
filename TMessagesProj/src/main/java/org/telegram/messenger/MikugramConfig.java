@@ -3,6 +3,8 @@ package org.telegram.messenger;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+import org.telegram.ui.ActionBar.Theme;
+
 public class MikugramConfig {
 
     private static final String PREFS_NAME = "mikugramconfig";
@@ -29,6 +31,8 @@ public class MikugramConfig {
     private static final String KEY_HIDE_TIME_ON_STICKER = "hide_time_on_sticker";
 
     // ── Appearance ──
+    private static final String KEY_LIQUID_GLASS_BUBBLES = "liquid_glass_bubbles";
+    private static final String KEY_LIQUID_GLASS_BUBBLES_MODE = "liquid_glass_bubbles_mode";
     private static final String KEY_TRANSPARENT_STATUS_BAR = "transparent_status_bar";
     private static final String KEY_TABLET_MODE = "tablet_mode";
     private static final String KEY_DISABLE_APPBAR_SHADOW = "disable_appbar_shadow";
@@ -63,6 +67,11 @@ public class MikugramConfig {
     public static final int DOUBLE_TAP_SAVE = 3;
     public static final int DOUBLE_TAP_EDIT = 4;
 
+    // ── Constants: Liquid glass bubbles mode ──
+    public static final int GLASS_BUBBLES_AMOLED_ONLY = 0;
+    public static final int GLASS_BUBBLES_DARK_ONLY = 1;
+    public static final int GLASS_BUBBLES_ALL_THEMES = 2;
+
     // ── Constants: Tablet mode ──
     public static final int TABLET_AUTO = 0;
     public static final int TABLET_ENABLE = 1;
@@ -95,6 +104,8 @@ public class MikugramConfig {
     private static boolean hideTimeOnSticker;
 
     // ── Cached values: Appearance ──
+    private static boolean liquidGlassBubbles;
+    private static int liquidGlassBubblesMode;
     private static boolean transparentStatusBar;
     private static int tabletMode;
     private static boolean disableAppBarShadow;
@@ -154,6 +165,8 @@ public class MikugramConfig {
         hideTimeOnSticker = prefs.getBoolean(KEY_HIDE_TIME_ON_STICKER, false);
 
         // Appearance
+        liquidGlassBubbles = prefs.getBoolean(KEY_LIQUID_GLASS_BUBBLES, false);
+        liquidGlassBubblesMode = prefs.getInt(KEY_LIQUID_GLASS_BUBBLES_MODE, GLASS_BUBBLES_ALL_THEMES);
         transparentStatusBar = prefs.getBoolean(KEY_TRANSPARENT_STATUS_BAR, false);
         tabletMode = prefs.getInt(KEY_TABLET_MODE, TABLET_AUTO);
         disableAppBarShadow = prefs.getBoolean(KEY_DISABLE_APPBAR_SHADOW, false);
@@ -366,6 +379,52 @@ public class MikugramConfig {
     //  APPEARANCE
     // ═══════════════════════════════════════════
 
+
+    public static boolean isLiquidGlassBubbles() {
+        loadConfig();
+        return liquidGlassBubbles;
+    }
+
+    public static void toggleLiquidGlassBubbles() {
+        liquidGlassBubbles = !liquidGlassBubbles;
+        getPrefs().edit().putBoolean(KEY_LIQUID_GLASS_BUBBLES, liquidGlassBubbles).apply();
+    }
+
+    public static int getLiquidGlassBubblesMode() {
+        loadConfig();
+        return liquidGlassBubblesMode;
+    }
+
+    public static void setLiquidGlassBubblesMode(int mode) {
+        liquidGlassBubblesMode = mode;
+        getPrefs().edit().putInt(KEY_LIQUID_GLASS_BUBBLES_MODE, mode).apply();
+    }
+
+    public static boolean shouldApplyGlassBubbles() {
+        if (!isLiquidGlassBubbles()) {
+            return false;
+        }
+        boolean isDark = Theme.isCurrentThemeDark();
+        boolean isAmoled = false;
+        Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
+        if (activeTheme != null && ("AMOLED Black".equalsIgnoreCase(activeTheme.name) || (activeTheme.assetName != null && activeTheme.assetName.contains("amoled")))) {
+            isAmoled = true;
+        } else if (isDark) {
+            int bg = Theme.getColor(Theme.key_windowBackgroundWhite);
+            if ((bg & 0x00FFFFFF) == 0) {
+                isAmoled = true;
+            }
+        }
+        switch (liquidGlassBubblesMode) {
+            case GLASS_BUBBLES_AMOLED_ONLY:
+                return isAmoled;
+            case GLASS_BUBBLES_DARK_ONLY:
+                return isDark;
+            case GLASS_BUBBLES_ALL_THEMES:
+            default:
+                return true;
+        }
+    }
 
     public static boolean isTransparentStatusBar() {
         loadConfig();

@@ -415,6 +415,11 @@ public class MainTabsLayout extends AnimatedLinearLayout {
         }
 
         if (found != null) {
+            if (lastLongSelectedView != null && lastLongSelectedView != found) {
+                try {
+                    performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP, android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                } catch (Exception ignore) {}
+            }
             lastLongSelectedView = found;
             setTabSelected(found, true);
 
@@ -465,6 +470,9 @@ public class MainTabsLayout extends AnimatedLinearLayout {
         public boolean onLongPressRequestedAt(View view, float x, float y) {
             checkPivot(view, x, y);
             isInLongPress = true;
+            try {
+                performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS, android.view.HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            } catch (Exception ignore) {}
             AndroidUtilities.cancelRunOnUIThread(restoreDrawSelector);
             setSkipDrawSelector(true);
             checkLongMove(x, y, true, false);

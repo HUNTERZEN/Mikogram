@@ -21,6 +21,7 @@ import android.text.TextPaint;
 import android.text.style.ReplacementSpan;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +120,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     private MainTabsLayout tabsView;
     private BlurredBackgroundDrawable tabsViewBackground;
     private View fadeView;
+    private int lastHapticPosition = -1;
 
     public MainTabsActivity() {
         super();
@@ -317,10 +319,30 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         tabs[INDEX_SETTINGS] = GlassTabView.createMainTab(context, resourceProvider, GlassTabView.TabAnimation.SETTINGS, R.string.Settings);
         tabs[INDEX_CALLS] = GlassTabView.createMainTab(context, resourceProvider, GlassTabView.TabAnimation.CALLS, R.string.MainTabsCalls);
         tabs[INDEX_PROFILE] = GlassTabView.createAvatar(context, resourceProvider, currentAccount, R.string.MainTabsProfile);
-        tabs[INDEX_CHATS].setOnLongClickListener(this::openFoldersSelector);
-        tabs[INDEX_CONTACTS].setOnLongClickListener(this::openContactsSelector);
-        tabs[INDEX_CALLS].setOnLongClickListener(this::openCallsSelector);
-        tabs[INDEX_PROFILE].setOnLongClickListener(this::openAccountSelector);
+        tabs[INDEX_CHATS].setOnLongClickListener(v -> {
+            try {
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            } catch (Exception ignore) {}
+            return openFoldersSelector(v);
+        });
+        tabs[INDEX_CONTACTS].setOnLongClickListener(v -> {
+            try {
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            } catch (Exception ignore) {}
+            return openContactsSelector(v);
+        });
+        tabs[INDEX_CALLS].setOnLongClickListener(v -> {
+            try {
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            } catch (Exception ignore) {}
+            return openCallsSelector(v);
+        });
+        tabs[INDEX_PROFILE].setOnLongClickListener(v -> {
+            try {
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+            } catch (Exception ignore) {}
+            return openAccountSelector(v);
+        });
 
         tabsView.addTabToIgnoreClick(tabs[INDEX_CHATS]);
         tabsView.addTabToIgnoreClick(tabs[INDEX_CONTACTS]);
@@ -335,6 +357,10 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
                 if (viewPager.isManualScrolling() || viewPager.isTouch()) {
                     return;
                 }
+
+                try {
+                    v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                } catch (Exception ignore) {}
 
                 if (viewPager.getCurrentPosition() == position) {
                     final BaseFragment fragment = getCurrentVisibleFragment();
@@ -733,6 +759,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
         if (viewPager != null) {
             final int currentPosition = viewPager.getCurrentPosition();
+            lastHapticPosition = currentPosition;
             if (currentPosition != POSITION_CALLS_OR_SETTINGS && dropCallsFragmentAfterPageScroll) {
                 dropFragmentAtPosition(POSITION_CALLS_OR_SETTINGS);
                 dropCallsFragmentAfterPageScroll = false;
@@ -756,7 +783,14 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             final float position = viewPager.getPositionAnimated();
             setGestureSelectedOverride(position, isDragByGesture);
             if (isDragByGesture) {
-                selectTab(Math.round(position), true);
+                int roundPos = Math.round(position);
+                if (roundPos != lastHapticPosition) {
+                    lastHapticPosition = roundPos;
+                    try {
+                        tabsView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                    } catch (Exception ignore) {}
+                }
+                selectTab(roundPos, true);
             }
         }
 
