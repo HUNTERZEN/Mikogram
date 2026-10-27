@@ -80,6 +80,14 @@ public class FlagSecureReason {
         return currentSecureReasons != null && currentSecureReasons.get(window) != null;
     }
 
+    public static void updateAll() {
+        if (currentSecureReasons != null) {
+            for (Window window : currentSecureReasons.keySet()) {
+                updateWindowSecure(window);
+            }
+        }
+    }
+
     public interface FlagSecureCondition {
         boolean run();
     }

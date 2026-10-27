@@ -10507,6 +10507,25 @@ public class MessagesController extends BaseController implements NotificationCe
         });
     }
 
+    public void syncHideOnline(boolean hide) {
+        if (statusRequest != 0) {
+            getConnectionsManager().cancelRequest(statusRequest, true);
+            statusRequest = 0;
+        }
+        statusSettingState = 0;
+        TL_account.updateStatus req = new TL_account.updateStatus();
+        req.offline = hide;
+        statusRequest = getConnectionsManager().sendRequest(req, (response, error) -> {
+            if (error == null) {
+                offlineSent = hide;
+                if (!hide) {
+                    lastStatusUpdateTime = System.currentTimeMillis();
+                }
+            }
+            statusRequest = 0;
+        });
+    }
+
     public void updateTimerProc() {
         long currentTime = System.currentTimeMillis();
 
@@ -10514,7 +10533,23 @@ public class MessagesController extends BaseController implements NotificationCe
         checkReadTasks();
 
         if (getUserConfig().isClientActivated()) {
-            if (!ignoreSetOnline && getConnectionsManager().getPauseTime() == 0 && ApplicationLoader.isScreenOn && !ApplicationLoader.mainInterfacePausedStageQueue) {
+            if (MikugramConfig.isHideOnline()) {
+                if (!offlineSent && statusSettingState != 2) {
+                    statusSettingState = 2;
+                    if (statusRequest != 0) {
+                        getConnectionsManager().cancelRequest(statusRequest, true);
+                    }
+                    TL_account.updateStatus req = new TL_account.updateStatus();
+                    req.offline = true;
+                    statusRequest = getConnectionsManager().sendRequest(req, (response, error) -> {
+                        if (error == null) {
+                            offlineSent = true;
+                        }
+                        statusSettingState = 0;
+                        statusRequest = 0;
+                    });
+                }
+            } else if (!ignoreSetOnline && getConnectionsManager().getPauseTime() == 0 && ApplicationLoader.isScreenOn && !ApplicationLoader.mainInterfacePausedStageQueue) {
                 if (ApplicationLoader.mainInterfacePausedStageQueueTime != 0 && Math.abs(ApplicationLoader.mainInterfacePausedStageQueueTime - System.currentTimeMillis()) > 1000) {
                     if (statusSettingState != 1 && (lastStatusUpdateTime == 0 || Math.abs(System.currentTimeMillis() - lastStatusUpdateTime) >= 55000 || offlineSent)) {
                         statusSettingState = 1;
@@ -10524,7 +10559,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
 
                         TL_account.updateStatus req = new TL_account.updateStatus();
-                        req.offline = MikugramConfig.isHideOnline();
+                        req.offline = false;
                         statusRequest = getConnectionsManager().sendRequest(req, (response, error) -> {
                             if (error == null) {
                                 lastStatusUpdateTime = System.currentTimeMillis();
@@ -11373,7 +11408,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean sendTyping(long dialogId, long threadMsgId, int action, String emojicon, int classGuid) {
-        if (MikugramConfig.isHideTyping()) {
+        if (MikugramConfig.isHideTyping() || MikugramConfig.isHideOnline()) {
             return false;
         }
         if (action < 0 || action >= sendingTypings.length || dialogId == 0) {
@@ -14400,7 +14435,7 @@ public class MessagesController extends BaseController implements NotificationCe
         getNotificationCenter().postNotificationName(NotificationCenter.messagesReadContent, dialogId, arrayList);
         if (messageObject.getId() < 0) {
             markMessageAsRead(messageObject.getDialogId(), messageObject.messageOwner.random_id, Integer.MIN_VALUE);
-        } else {
+        } else if (!MikugramConfig.isHideSeen()) {
             if (messageObject.messageOwner.peer_id.channel_id != 0) {
                 TLRPC.TL_channels_readMessageContents req = new TLRPC.TL_channels_readMessageContents();
                 req.channel = getInputChannel(messageObject.messageOwner.peer_id.channel_id);

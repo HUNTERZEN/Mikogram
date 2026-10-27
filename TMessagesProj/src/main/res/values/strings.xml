@@ -11072,7 +11072,7 @@
     <string name="MikugramAppearanceInfo">Customize the look and feel of the app interface</string>
 
     <!-- ── Network & Experimental ── -->
-    <string name="MikugramExperimental">Network \u0026 Experimental</string>
+    <string name="MikugramExperimental">Network &amp; Experimental</string>
     <string name="MikugramShowNetworkSpeed">Show Network Speed</string>
     <string name="MikugramShowNetworkSpeedInfo">Display download/upload speed in the title bar</string>
     <string name="MikugramDownloadSpeedBoost">Download Speed Boost</string>

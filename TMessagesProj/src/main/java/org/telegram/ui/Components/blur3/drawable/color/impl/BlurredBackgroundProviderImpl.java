@@ -151,11 +151,7 @@ public class BlurredBackgroundProviderImpl {
     public static BlurredBackgroundProvider bottomPanelChatActivity(Theme.ResourcesProvider resourcesProvider) {
         return new BlurredBackgroundProviderBuilder(resourcesProvider)
                 .setBackgroundColor((r, isDark) -> {
-                    if (!checkBlurEnabled(resourcesProvider)) {
-                        return ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_chat_messagePanelBackground, r), 255);
-                    }
-
-                    final float alpha = LiteMode.isEnabled(LiteMode.FLAG_LIQUID_GLASS) ? 0.85f : 0.76f;
+                    final float alpha = 0.10f;
                     final int colorBg = Theme.getColor(Theme.key_chat_messagePanelBackground, r);
                     return Theme.multAlpha(colorBg, alpha);
                 })
@@ -170,12 +166,7 @@ public class BlurredBackgroundProviderImpl {
     public static BlurredBackgroundProvider topPanelChatActivity(Theme.ResourcesProvider resourcesProvider) {
         return new BlurredBackgroundProviderBuilder(resourcesProvider)
                 .setBackgroundColor((r, isDark) -> {
-                    if (!checkBlurEnabled(resourcesProvider)) {
-                        return ColorUtils.setAlphaComponent(Theme.getColor(isDark ?
-                            Theme.key_actionBarDefault : Theme.key_chat_topPanelBackground, r), 255);
-                    }
-
-                    final float alpha = LiteMode.isEnabled(LiteMode.FLAG_LIQUID_GLASS) ? 0.85f : 0.76f;
+                    final float alpha = 0.10f;
                     final int colorBg = Theme.getColor(Theme.key_chat_topPanelBackground, r);
                     return Theme.multAlpha(colorBg, alpha);
                 })
@@ -190,12 +181,7 @@ public class BlurredBackgroundProviderImpl {
     public static BlurredBackgroundProvider topPanelChatActivityTags(Theme.ResourcesProvider resourcesProvider) {
         return new BlurredBackgroundProviderBuilder(resourcesProvider)
             .setBackgroundColor((r, isDark) -> {
-                if (!checkBlurEnabled(resourcesProvider)) {
-                    return ColorUtils.setAlphaComponent(Theme.getColor(isDark ?
-                            Theme.key_actionBarDefault : Theme.key_chat_topPanelBackground, r), 255);
-                }
-
-                final float alpha = LiteMode.isEnabled(LiteMode.FLAG_LIQUID_GLASS) ? 0.85f : 0.76f;
+                final float alpha = 0.10f;
                 final int colorBg = Theme.getColor(Theme.key_chat_topPanelBackground, r);
                 return Theme.multAlpha(colorBg, alpha);
             })
@@ -337,23 +323,11 @@ public class BlurredBackgroundProviderImpl {
     }
 
     public static boolean checkBlurEnabled(int currentAccount, Theme.ResourcesProvider resourcesProvider) {
-        if (!SharedConfig.chatBlurEnabled()) {
-            return false;
-        }
         if (MikugramConfig.isLiquidGlassBubbles()) {
             return true;
         }
-        final boolean isDark = resourcesProvider != null ? resourcesProvider.isDark() : Theme.isCurrentThemeDark();
-        final boolean isLight = !isDark;
-        if (isLight) {
-            if (MessagesController.getInstance(currentAccount).config.disableBlurInLightTheme.get()) {
-                return false;
-            }
-        }
-        if (isDark) {
-            if (MessagesController.getInstance(currentAccount).config.disableBlurInDarkTheme.get()) {
-                return false;
-            }
+        if (!SharedConfig.chatBlurEnabled()) {
+            return false;
         }
         return true;
     }
